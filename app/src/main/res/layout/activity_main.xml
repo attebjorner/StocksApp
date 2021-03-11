@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <SearchView
+        android:id="@+id/svStocks"
+        android:layout_height="56dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/search_rounded"
+        android:iconifiedByDefault="false"
+        android:paddingEnd="12dp"
+        android:queryHint="@string/search_hint"
+        android:layout_width="match_parent"></SearchView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent">
+
+        <Button
+            android:id="@+id/btnStocks"
+            style="@style/Widget.AppCompat.ButtonBar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/menu_button"
+            android:fontFamily="@font/stembold"
+            android:onClick="onClickStocks"
+            android:text="@string/stocks"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="28sp" />
+
+        <Button
+            android:id="@+id/btnFavorite"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/menu_button"
+            android:fontFamily="@font/stembold"
+            android:onClick="onClickFavorite"
+            android:text="@string/favorite"
+            android:textAllCaps="false"
+            android:textColor="@color/gray"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/mainFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+</LinearLayout>
