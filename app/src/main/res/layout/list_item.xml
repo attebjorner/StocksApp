@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="68dp"
     android:background="@drawable/stocks_list_item_shape"
     android:orientation="horizontal" >
 
@@ -11,8 +11,8 @@
         android:id="@+id/stockLogo"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_width="54dp"
-        android:layout_height="54dp"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
         android:contentDescription="TODO" />
 
     <LinearLayout

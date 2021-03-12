@@ -7,7 +7,7 @@
 
     <SearchView
         android:id="@+id/svStocks"
-        android:layout_height="56dp"
+        android:layout_height="48dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="10dp"
@@ -20,7 +20,7 @@
         android:layout_width="match_parent" />
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
+        android:id="@+id/llMenuButtons"
         android:layout_height="56dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="10dp"

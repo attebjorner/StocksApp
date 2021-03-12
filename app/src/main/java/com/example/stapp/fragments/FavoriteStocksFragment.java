@@ -1,15 +1,18 @@
-package com.example.stapp;
+package com.example.stapp.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stapp.ListItem;
+import com.example.stapp.adapters.MainListAdapter;
+import com.example.stapp.R;
+import com.example.stapp.TinyDB;
 import com.example.stapp.api.StocksContainer;
 
 import java.util.ArrayList;
@@ -28,8 +31,6 @@ public class FavoriteStocksFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.fragment_favorite_stocks, container, false);
         RecyclerView rvFavorite = (RecyclerView) rootView.findViewById(R.id.rvFavorite);
-        SearchView svStocks = (SearchView) getActivity().findViewById(R.id.svStocks);
-        final int[] lastFirstItem = new int[1];
 
         TinyDB tinyDB = new TinyDB(getActivity());
 

@@ -1,4 +1,4 @@
-package com.example.stapp;
+package com.example.stapp.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
@@ -12,6 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stapp.ListItem;
+import com.example.stapp.R;
+import com.example.stapp.TinyDB;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -40,7 +43,6 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.Stocks
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item, parent, false
                 );
-
         return new StocksItemViewHolder(view);
     }
 
