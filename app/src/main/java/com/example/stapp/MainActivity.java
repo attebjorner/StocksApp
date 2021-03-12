@@ -1,14 +1,18 @@
 package com.example.stapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -31,10 +35,11 @@ public class MainActivity extends AppCompatActivity
         doFragmentTransaction(fStocks);
 
         svStocks = (SearchView) findViewById(R.id.svStocks);
-        int id = svStocks.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        TextView textView = (TextView) svStocks.findViewById(id);
+        int idSearchText = svStocks.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView textView = (TextView) svStocks.findViewById(idSearchText);
         textView.setTextColor(getColor(R.color.black));
         textView.setHintTextColor(getColor(R.color.black));
+        textView.setTextSize(16);
         Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.montserratsemibold);
         textView.setTypeface(typeface);
     }

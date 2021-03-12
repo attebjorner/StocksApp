@@ -11,6 +11,8 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="18dp"
         android:layout_marginEnd="10dp"
+        android:searchIcon="@drawable/search_icon"
+        android:closeIcon="@drawable/search_close_icon"
         android:background="@drawable/search_rounded"
         android:iconifiedByDefault="false"
         android:paddingEnd="12dp"

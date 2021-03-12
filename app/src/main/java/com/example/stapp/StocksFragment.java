@@ -36,10 +36,6 @@ public class StocksFragment extends Fragment
 
         TinyDB tinyDB = new TinyDB(getActivity());
 
-//        StocksContainer a = tinyDB.getObject("mainStocks", StocksContainer.class);
-//        a.setDateMan("hui");
-//        tinyDB.putObject("mainStocks", new StocksContainer(LocalDate.now(), new ArrayList<>()));
-
         StocksContainer mainStocks;
 
         try
@@ -69,26 +65,5 @@ public class StocksFragment extends Fragment
         rvStocks.setAdapter(adapter);
 
         return rootView;
-
-//        lastFirstItem[0] = llManager.findFirstVisibleItemPosition();
-//        rvStocks.addOnScrollListener(new RecyclerView.OnScrollListener()
-//        {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState)
-//            {
-//                super.onScrollStateChanged(recyclerView, newState);
-//            }
-//
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy)
-//            {
-//                super.onScrolled(recyclerView, dx, dy);
-//                int currentFirstVisible = llManager.findFirstCompletelyVisibleItemPosition();
-////                if ((currentFirstVisible == 0 || currentFirstVisible < lastFirstItem[0])
-////                        && (currentFirstVisible != lastFirstItem[0])) svStocks.setVisibility(View.VISIBLE);
-////                else if (currentFirstVisible != lastFirstItem[0]) svStocks.setVisibility(View.GONE);
-////                lastFirstItem[0] = currentFirstVisible;
-//            }
-//        });
     }
 }

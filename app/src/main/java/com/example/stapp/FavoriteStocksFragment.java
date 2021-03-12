@@ -56,27 +56,6 @@ public class FavoriteStocksFragment extends Fragment
         MainListAdapter adapter = new MainListAdapter(favList, getActivity());
         rvFavorite.setAdapter(adapter);
 
-//        lastFirstItem[0] = llManager.findFirstVisibleItemPosition();
-//        rvFavorite.addOnScrollListener(new RecyclerView.OnScrollListener()
-//        {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState)
-//            {
-//                super.onScrollStateChanged(recyclerView, newState);
-//            }
-//
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy)
-//            {
-//                super.onScrolled(recyclerView, dx, dy);
-//                int currentFirstVisible = llManager.findFirstVisibleItemPosition();
-//                if ((currentFirstVisible == 0 || currentFirstVisible < lastFirstItem[0])
-//                        && (currentFirstVisible != lastFirstItem[0])) svStocks.setVisibility(View.VISIBLE);
-//                else if (currentFirstVisible != lastFirstItem[0]) svStocks.setVisibility(View.GONE);
-//                lastFirstItem[0] = currentFirstVisible;
-//            }
-//        });
-
         return rootView;
     }
 }
