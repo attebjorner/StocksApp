@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
         TextView textView = (TextView) svStocks.findViewById(id);
         textView.setTextColor(getColor(R.color.black));
         textView.setHintTextColor(getColor(R.color.black));
-        Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.stemregular);
+        Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.montserratsemibold);
         textView.setTypeface(typeface);
     }
 
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
     {
         btnPressed.setTextSize(28);
         btnPressed.setTextColor(getColor(R.color.black));
-        btnUnpressed.setTextSize(20);
+        btnUnpressed.setTextSize(18);
         btnUnpressed.setTextColor(getColor(R.color.gray));
     }
 

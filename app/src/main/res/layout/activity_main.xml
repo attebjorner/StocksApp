@@ -15,7 +15,7 @@
         android:iconifiedByDefault="false"
         android:paddingEnd="12dp"
         android:queryHint="@string/search_hint"
-        android:layout_width="match_parent"></SearchView>
+        android:layout_width="match_parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/menu_button"
-            android:fontFamily="@font/stembold"
+            android:fontFamily="@font/montserratbold"
             android:onClick="onClickStocks"
             android:text="@string/stocks"
             android:textAllCaps="false"
@@ -44,12 +44,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/menu_button"
-            android:fontFamily="@font/stembold"
+            android:fontFamily="@font/montserratbold"
             android:onClick="onClickFavorite"
             android:text="@string/favorite"
             android:textAllCaps="false"
             android:textColor="@color/gray"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <FrameLayout

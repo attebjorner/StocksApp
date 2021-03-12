@@ -23,8 +23,8 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.Stocks
     private final ArrayList<ListItem> stocksList;
     private final TinyDB tinyDB;
     private static final int[] ITEM_COLORS = new int[]{0xFFF0F4F7, 0xFFFFFFFF};
-    private static final int[] CHANGE_COLORS = new int[]{0xFF24B770, 0xFFBC4042}; //green, red
-    private static final int[] STAR_COLORS = new int[]{0xFFBABABA, 0xFFFED400}; //gray, yellow
+    private static final int[] CHANGE_COLORS = new int[]{0xFF24B25D, 0xFFB22424}; //green, red
+    private static final int[] STAR_COLORS = new int[]{0xFFBABABA, 0xFFFFCA1C}; //gray, yellow
     private static final String IMAGE_URL = "https://finnhub.io/api/logo?symbol=";
 
     public MainListAdapter(ArrayList<ListItem> stocksList, Context context)

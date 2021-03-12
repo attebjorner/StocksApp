@@ -13,6 +13,7 @@
         android:layout_marginTop="8dp"
         android:layout_width="54dp"
         android:layout_height="54dp"
+        android:background="@color/purple_200"
         android:contentDescription="TODO" />
 
     <LinearLayout
@@ -20,7 +21,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingStart="8dp"
-        android:paddingTop="17dp"
+        android:paddingTop="9dp"
         android:paddingBottom="4dp"
         android:paddingEnd="12dp">
 
@@ -33,10 +34,10 @@
                 android:id="@+id/symbol"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:fontFamily="@font/stembold"
+                android:fontFamily="@font/montserratbold"
                 android:gravity="bottom"
                 android:textColor="@color/black"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:text="SYMB"/>
 
             <ImageButton
@@ -47,7 +48,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_toEndOf="@+id/symbol"
                 android:background="#00ffffff"
-                android:paddingBottom="6dp"
+                android:paddingBottom="0dp"
                 android:src="@drawable/star" />
 
             <TextView
@@ -55,11 +56,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
-                android:fontFamily="@font/stembold"
+                android:fontFamily="@font/montserratbold"
                 android:gravity="bottom|end"
                 android:paddingTop="2dp"
                 android:textColor="@color/black"
-                android:textSize="22sp"
+                android:textSize="12sp"
                 android:text="price"/>
         </RelativeLayout>
 
@@ -72,10 +73,10 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:fontFamily="@font/stembold"
+                android:fontFamily="@font/montserratsemibold"
                 android:gravity="top"
                 android:textColor="@color/black"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 android:text="name name name"/>
 
             <TextView
@@ -84,9 +85,8 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="end"
-                android:fontFamily="@font/stemregular"
-                android:gravity="end"
-                android:paddingTop="2dp"
+                android:fontFamily="@font/montserratsemibold"
+                android:gravity="top|end"
                 android:textSize="12sp"
                 android:text="change"/>
 

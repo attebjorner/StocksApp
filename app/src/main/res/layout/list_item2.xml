@@ -21,7 +21,7 @@
                 android:gravity="bottom"
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                android:fontFamily="@font/stembold" />
+                android:fontFamily="@font/montserratbold" />
 
             <ImageButton
                 android:id="@+id/isFavorite"
@@ -42,7 +42,7 @@
                 android:gravity="bottom|end"
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                android:fontFamily="@font/stembold"
+                android:fontFamily="@font/montserratbold"
                 android:paddingTop="2dp"/>
         </RelativeLayout>
 
@@ -57,7 +57,7 @@
                 android:layout_height="match_parent"
                 android:gravity="top"
                 android:textColor="@color/black"
-                android:fontFamily="@font/stemregular" />
+                android:fontFamily="@font/montserratsemibold" />
 
             <TextView
                 android:id="@+id/change"
@@ -65,7 +65,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="end"
-                android:fontFamily="@font/stemregular"
+                android:fontFamily="@font/montserratsemibold"
                 android:gravity="end"
                 android:textSize="12sp"
                 android:paddingTop="2dp"/>
