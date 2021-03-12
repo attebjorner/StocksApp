@@ -45,7 +45,6 @@ public class FavoriteStocksFragment extends Fragment
             if (favorites.contains(stocksList.get(i).getSymbol())) stocksList.get(i).setFavorite(true);
         }
 
-        //вот это надо будет удалить к   хуйям
         ArrayList<ListItem> favList = new ArrayList<>();
         for (ListItem item : stocksList)
         {
