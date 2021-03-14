@@ -32,17 +32,10 @@ public class MboumApi
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, REQUEST_URL, null, response ->
                 {
-                    JSONArray quotesArray = null;
                     try
                     {
-                        quotesArray = (JSONArray) response.get("quotes");
-                    } catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    for (int i = 0; i < quotesArray.length(); i++)
-                    {
-                        try
+                        JSONArray quotesArray = (JSONArray) response.get("quotes");
+                        for (int i = 0; i < quotesArray.length(); i++)
                         {
                             JSONObject temp = quotesArray.getJSONObject(i);
                             stocksResponseItems.add(new ListItem(
@@ -50,11 +43,12 @@ public class MboumApi
                                     temp.get("regularMarketPrice").toString(), temp.get("regularMarketChange").toString(),
                                     temp.get("regularMarketChangePercent").toString()
                             ));
-                        } catch (JSONException e)
-                        {
-                            e.printStackTrace();
                         }
+                    } catch (JSONException e)
+                    {
+                        e.printStackTrace();
                     }
+
                     TinyDB tinyDB = new TinyDB(context);
                     ArrayList<String> favorites;
                     favorites = tinyDB.getListString("favorites");
@@ -67,7 +61,7 @@ public class MboumApi
                         }
                     }
 
-                    tinyDB.putObject("mainStocks", new StocksContainer(LocalDate.now(), stocksResponseItems));
+                    tinyDB.putObject("mainStocks", new StocksDailyContainer(LocalDate.now(), stocksResponseItems));
 
                     RecyclerView rvStocks = (RecyclerView) rootView.findViewById(R.id.rvStocks);
                     LinearLayoutManager llManager = new LinearLayoutManager(context);
@@ -76,6 +70,6 @@ public class MboumApi
                     rvStocks.setAdapter(adapter);
                 }, error -> Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show()
         );
-        MboumRequestSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        MboumSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 }

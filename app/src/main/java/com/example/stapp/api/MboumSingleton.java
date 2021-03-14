@@ -6,21 +6,23 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-public class MboumRequestSingleton
-{
-    private static MboumRequestSingleton instance;
-    private RequestQueue requestQueue;
-    private static Context ctx;
+import java.lang.ref.WeakReference;
 
-    private MboumRequestSingleton(Context context)
+public class MboumSingleton
+{
+    private static MboumSingleton instance;
+    private RequestQueue requestQueue;
+    private static WeakReference<Context> ctx;
+
+    private MboumSingleton(Context context)
     {
-        ctx = context;
+        ctx = new WeakReference<>(context);
         requestQueue = getRequestQueue();
     }
 
-    public static synchronized MboumRequestSingleton getInstance(Context context)
+    public static synchronized MboumSingleton getInstance(Context context)
     {
-        if (instance == null) instance = new MboumRequestSingleton(context);
+        if (instance == null) instance = new MboumSingleton(context);
         return instance;
     }
 
@@ -28,7 +30,7 @@ public class MboumRequestSingleton
     {
         if (requestQueue == null)
         {
-            requestQueue = Volley.newRequestQueue(ctx.getApplicationContext());
+            requestQueue = Volley.newRequestQueue(ctx.get().getApplicationContext());
         }
         return requestQueue;
     }

@@ -14,7 +14,7 @@ import com.example.stapp.ListItem;
 import com.example.stapp.adapters.MainListAdapter;
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
-import com.example.stapp.api.StocksContainer;
+import com.example.stapp.api.StocksDailyContainer;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,19 +36,20 @@ public class StocksFragment extends Fragment
         RecyclerView rvStocks = (RecyclerView) rootView.findViewById(R.id.rvStocks);
 
         TinyDB tinyDB = new TinyDB(getActivity());
-        StocksContainer mainStocks;
+        StocksDailyContainer mainStocks;
         try
         {
-            mainStocks = tinyDB.getObject("mainStocks", StocksContainer.class);
+            mainStocks = tinyDB.getObject("mainStocks", StocksDailyContainer.class);
+            if (mainStocks.getStocksItems() == null) throw new NullPointerException();
         } catch (NullPointerException e)
         {
-            mainStocks = new StocksContainer(LocalDate.now(), new ArrayList<>());
+            mainStocks = new StocksDailyContainer(LocalDate.now(), new ArrayList<>());
         }
-        if (!mainStocks.getDate().equals(LocalDate.now().toString()) || mainStocks.getMainStocks().isEmpty())
+        if (!mainStocks.getDate().equals(LocalDate.now().toString()) || mainStocks.getStocksItems().isEmpty())
         {
             getMboumStocks(getActivity(), rootView);
         }
-        ArrayList<ListItem> stocksList = mainStocks.getMainStocks();
+        ArrayList<ListItem> stocksList = mainStocks.getStocksItems();
 
         ArrayList<String> favorites;
         favorites = tinyDB.getListString("favorites");

@@ -45,10 +45,10 @@ public class EmptySearchFragment extends Fragment
         searchedList.add("escho hui");
         searchedList.add("pise4ka");
 
-        EmptySearchAdapter emptySearchAdapter = new EmptySearchAdapter(searchedList);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.HORIZONTAL);
         rvSearched.setLayoutManager(layoutManager);
-        rvSearched.setAdapter(emptySearchAdapter);
+        EmptySearchAdapter adapter = new EmptySearchAdapter(searchedList);
+        rvSearched.setAdapter(adapter);
 
         return rootView;
     }

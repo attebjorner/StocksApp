@@ -13,7 +13,7 @@ import com.example.stapp.ListItem;
 import com.example.stapp.adapters.MainListAdapter;
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
-import com.example.stapp.api.StocksContainer;
+import com.example.stapp.api.StocksDailyContainer;
 
 import java.util.ArrayList;
 
@@ -34,9 +34,9 @@ public class FavoriteStocksFragment extends Fragment
 
         TinyDB tinyDB = new TinyDB(getActivity());
 
-        StocksContainer mainStocks;
-        mainStocks = tinyDB.getObject("mainStocks", StocksContainer.class);
-        ArrayList<ListItem> stocksList = mainStocks.getMainStocks();
+        StocksDailyContainer mainStocks;
+        mainStocks = tinyDB.getObject("mainStocks", StocksDailyContainer.class);
+        ArrayList<ListItem> stocksList = mainStocks.getStocksItems();
 
         ArrayList<String> favorites;
         favorites = tinyDB.getListString("favorites");

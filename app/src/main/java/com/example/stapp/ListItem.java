@@ -15,7 +15,7 @@ public class ListItem
     {
         this.symbol = symbol;
         this.name = name;
-        this.price = "$" + price;
+        this.price = "$" + round(Double.parseDouble(price), 2);
         change = Double.toString(round(Double.parseDouble(change), 2));
         percChange = Double.toString(round(Double.parseDouble(percChange), 2));
         change = change.startsWith("-") ? change.replace("-", "-$") : "+$" + change;
