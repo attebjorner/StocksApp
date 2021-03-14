@@ -40,6 +40,7 @@ public class SearchResultsDataApi
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, LOOKUP_DATA_REQUEST, null, response ->
         {
+            System.out.println("SEARCH RESULTS DATA API REQUEST");
             Iterator<String> keys = response.keys();
             while(keys.hasNext())
             {
@@ -95,6 +96,8 @@ public class SearchResultsDataApi
                 queryArray.remove(i);
             }
         }
+//        because I have 8 requests maximum per minute
+        if (queryArray.size() > 8) queryArray = new ArrayList<>(queryArray.subList(0, 8));
         return String.join(",", queryArray);
     }
 }

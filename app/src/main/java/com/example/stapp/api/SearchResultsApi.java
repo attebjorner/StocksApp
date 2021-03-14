@@ -25,13 +25,14 @@ public class SearchResultsApi
         final StringBuffer[] queryResults = {new StringBuffer()};
 //        String LOOKUP_REQUEST = "https://finnhub.io/api/v1/search?q=" + searchQuery
 //                + "&token=c152grv48v6r76ch3rq0";
-        String LOOKUP_REQUEST = "https://finnhub.io/api/v1/search?q=" + "apple"
+        String LOOKUP_REQUEST = "https://finnhub.io/api/v1/search?q=" + "micro"
                 + "&token=c152grv48v6r76ch3rq0";
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, LOOKUP_REQUEST, null, response ->
         {
+            System.out.println("SEARCH RESULTS API REQUEST");
             try
             {
                 JSONArray quotesArray = (JSONArray) response.get("result");

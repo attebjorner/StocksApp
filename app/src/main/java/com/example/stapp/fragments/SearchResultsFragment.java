@@ -22,6 +22,8 @@ import com.example.stapp.api.StocksDailyContainer;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.example.stapp.api.SearchResultsApi.getSearchResults;
 
@@ -55,7 +57,17 @@ public class SearchResultsFragment extends Fragment
 
 //        ArrayList<ListItem> searchResults = new ArrayList<>();
         String searchQuery = svStocks.getQuery().toString();
-        getSearchResults(getActivity(), rootView, searchQuery);
+        Context cont = getActivity();
+        new Timer().schedule(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                System.out.println("TIMER TASK STARTDEF");
+                getSearchResults(cont, rootView, searchQuery);
+            }
+        }, 3000);
+//        getSearchResults(getActivity(), rootView, searchQuery);
 
 //        TODO: result list from finhub, symb lookup -> symb and name, (or name from twelve?)
 //        quote -> cur price (c), change = c - pc, percChange = ((c - pc)*100)/ pc
@@ -73,6 +85,7 @@ public class SearchResultsFragment extends Fragment
     {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         if (requestQueue!= null) requestQueue.cancelAll("searchRequest");
+        System.out.println("STOP FRAGMENT SUKA BLYAT");
         super.onStop();
     }
 }
