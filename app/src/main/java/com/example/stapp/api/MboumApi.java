@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.stapp.ListItem;
 import com.example.stapp.adapters.MainListAdapter;
 import com.example.stapp.R;
@@ -29,6 +31,7 @@ public class MboumApi
         String REQUEST_URL = "https://mboum.com/api/v1/co/collections/?list=most_actives&start=1&" +
                 "apikey=xThUx6KqmURgMfT1xXXjcT8GIpB1zeJ6ghcWqT3eHeOTlJTtw9DnDq9qWP2g";
 
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, REQUEST_URL, null, response ->
                 {
@@ -70,6 +73,6 @@ public class MboumApi
                     rvStocks.setAdapter(adapter);
                 }, error -> Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show()
         );
-        MboumSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        requestQueue.add(jsonObjectRequest);
     }
 }

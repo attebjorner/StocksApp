@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.stapp.ListItem;
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
@@ -64,5 +66,13 @@ public class SearchResultsFragment extends Fragment
         rvSearchResults.setAdapter(adapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onStop()
+    {
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        if (requestQueue!= null) requestQueue.cancelAll("searchRequest");
+        super.onStop();
     }
 }

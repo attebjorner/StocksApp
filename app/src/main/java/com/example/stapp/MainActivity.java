@@ -1,5 +1,7 @@
 package com.example.stapp;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +15,8 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.stapp.fragments.EmptySearchFragment;
 import com.example.stapp.fragments.FavoriteStocksFragment;
 import com.example.stapp.fragments.SearchResultsFragment;
@@ -23,6 +27,7 @@ public class MainActivity extends AppCompatActivity
     private SearchView svStocks;
     private Button btnStocks, btnFavorite, lastActiveMenuBtn;
     private LinearLayout llMenuButtons;
+    private View mainFragment;
     private int backPressedCounter = 0;
 
     @Override
@@ -31,6 +36,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mainFragment = (View) findViewById(R.id.mainFragment);
         btnStocks = (Button) findViewById(R.id.btnStocks);
         btnFavorite = (Button) findViewById(R.id.btnFavorite);
         lastActiveMenuBtn = btnStocks;
@@ -61,6 +67,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+//        RequestQueue requestQueue = Volley.newRequestQueue(this);
         svStocks.setOnQueryTextListener(new SearchView.OnQueryTextListener()
         {
             @Override
@@ -74,6 +81,7 @@ public class MainActivity extends AppCompatActivity
             {
                 try
                 {
+//                    if (requestQueue!= null) requestQueue.cancelAll("searchRequest");
                     if (svStocks.getQuery().length() == 0) setEmptySearchFragment();
                     else doFragmentTransaction(SearchResultsFragment.class);
                 } catch (IllegalAccessException | InstantiationException e) { e.printStackTrace(); }
@@ -113,7 +121,19 @@ public class MainActivity extends AppCompatActivity
 
     private void setEmptySearchFragment() throws IllegalAccessException, InstantiationException
     {
-        llMenuButtons.setVisibility(View.GONE);
+        llMenuButtons.animate().alpha(0.0f).setDuration(500);
+        mainFragment.animate()
+                .translationY(-(llMenuButtons.getHeight()))
+                .setDuration(500)
+                .setListener(new AnimatorListenerAdapter()
+                {
+                    @Override
+                    public void onAnimationEnd(Animator animation)
+                    {
+                        super.onAnimationEnd(animation);
+                        llMenuButtons.setVisibility(View.INVISIBLE);
+                    }
+                });
         doFragmentTransaction(EmptySearchFragment.class);
     }
 
@@ -124,7 +144,19 @@ public class MainActivity extends AppCompatActivity
     {
         backPressedCounter++;
         if (backPressedCounter == 2) super.onBackPressed();
-        llMenuButtons.setVisibility(View.VISIBLE);
+        llMenuButtons.animate().translationY(0).alpha(1.0f).setDuration(500);
+        mainFragment.animate()
+                .translationY(0)
+                .setDuration(500)
+                .setListener(new AnimatorListenerAdapter()
+                {
+                    @Override
+                    public void onAnimationEnd(Animator animation)
+                    {
+                        super.onAnimationEnd(animation);
+                        llMenuButtons.setVisibility(View.VISIBLE);
+                    }
+                });
         try
         {
             if (lastActiveMenuBtn.equals(btnStocks)) onClickStocks(btnStocks);

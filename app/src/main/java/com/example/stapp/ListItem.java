@@ -23,6 +23,14 @@ public class ListItem
         this.isFavorite = false;
     }
 
+    public ListItem(String symbol, String name, int c, int pc)
+    {
+        this(
+                symbol, name, String.valueOf(c),
+                String.valueOf(c - pc), String.valueOf(((c - pc) * 100) / pc)
+        );
+    }
+
     public String getSymbol()
     {
         return symbol;

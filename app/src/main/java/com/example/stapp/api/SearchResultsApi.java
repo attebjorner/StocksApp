@@ -5,7 +5,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.stapp.ListItem;
 
 import org.json.JSONArray;
@@ -26,6 +28,7 @@ public class SearchResultsApi
         String LOOKUP_REQUEST = "https://finnhub.io/api/v1/search?q=" + "apple"
                 + "&token=c152grv48v6r76ch3rq0";
 
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, LOOKUP_REQUEST, null, response ->
         {
@@ -47,6 +50,6 @@ public class SearchResultsApi
         );
 
         jsonObjectRequest.setTag("searchRequest");
-        SearchResultSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        requestQueue.add(jsonObjectRequest);
     }
 }

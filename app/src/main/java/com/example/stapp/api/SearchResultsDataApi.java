@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.stapp.ListItem;
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
@@ -30,11 +32,11 @@ public class SearchResultsDataApi
         ArrayList<ListItem> searchResponseItems = new ArrayList<>();
         //fun to return query without shit which i have
         queryResults = manageExistingStocks(searchResponseItems, queryResults, tinyDB);
-        queryResults = "APQT,HUI";
         String LOOKUP_DATA_REQUEST = "https://api.twelvedata.com/quote?symbol=" + queryResults
                 + "&apikey=ba5fd509861a483ebba2d3cebda53e84";
         StocksDailyContainer searchedStocksContainer = tinyDB.getObject("searchedStocks", StocksDailyContainer.class);
 
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, LOOKUP_DATA_REQUEST, null, response ->
         {
@@ -55,6 +57,7 @@ public class SearchResultsDataApi
                     searchedStocksContainer.updateStocksList(newStock);
                 } catch (Exception e) { e.printStackTrace(); }
             }
+            tinyDB.putObject("searchedStocks", searchedStocksContainer);
 
 //            TODO: if quotesArray is empty
 //            TODO: save somewhere cache (daily, merge with mainStocks?)
@@ -69,7 +72,7 @@ public class SearchResultsDataApi
         );
 
         jsonObjectRequest.setTag("searchRequest");
-        SearchResultsDataSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        requestQueue.add(jsonObjectRequest);
     }
 
     public static void addExistingStocks(StocksDailyContainer container,
