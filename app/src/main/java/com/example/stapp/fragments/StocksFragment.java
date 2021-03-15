@@ -19,7 +19,7 @@ import com.example.stapp.api.StocksDailyContainer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static com.example.stapp.api.MboumApi.*;
+import static com.example.stapp.api.InitStocksRequest.*;
 
 public class StocksFragment extends Fragment
 {

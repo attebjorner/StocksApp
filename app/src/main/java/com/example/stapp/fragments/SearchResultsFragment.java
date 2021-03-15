@@ -1,6 +1,5 @@
 package com.example.stapp.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,9 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.example.stapp.ListItem;
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
 import com.example.stapp.adapters.MainListAdapter;
@@ -22,10 +18,8 @@ import com.example.stapp.api.StocksDailyContainer;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import static com.example.stapp.api.SearchResultsApi.getSearchResults;
+import static com.example.stapp.api.SearchResultsRequest.getSearchResults;
 
 public class SearchResultsFragment extends Fragment
 {
@@ -57,17 +51,7 @@ public class SearchResultsFragment extends Fragment
 
 //        ArrayList<ListItem> searchResults = new ArrayList<>();
         String searchQuery = svStocks.getQuery().toString();
-        Context cont = getActivity();
-        new Timer().schedule(new TimerTask()
-        {
-            @Override
-            public void run()
-            {
-                System.out.println("TIMER TASK STARTDEF");
-                getSearchResults(cont, rootView, searchQuery);
-            }
-        }, 3000);
-//        getSearchResults(getActivity(), rootView, searchQuery);
+        getSearchResults(getActivity(), rootView, searchQuery);
 
 //        TODO: result list from finhub, symb lookup -> symb and name, (or name from twelve?)
 //        quote -> cur price (c), change = c - pc, percChange = ((c - pc)*100)/ pc
@@ -78,14 +62,5 @@ public class SearchResultsFragment extends Fragment
         rvSearchResults.setAdapter(adapter);
 
         return rootView;
-    }
-
-    @Override
-    public void onStop()
-    {
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        if (requestQueue!= null) requestQueue.cancelAll("searchRequest");
-        System.out.println("STOP FRAGMENT SUKA BLYAT");
-        super.onStop();
     }
 }

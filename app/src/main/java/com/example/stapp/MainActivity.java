@@ -73,18 +73,17 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query)
             {
+                //TODO: search something only when enter button is pressed, else > show 3rd fragm
+                try
+                {
+                    if (query.length() != 0) doFragmentTransaction(SearchResultsFragment.class);
+                } catch (IllegalAccessException | InstantiationException e) { e.printStackTrace(); }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText)
             {
-                try
-                {
-//                    if (requestQueue!= null) requestQueue.cancelAll("searchRequest");
-                    if (svStocks.getQuery().length() == 0) setEmptySearchFragment();
-                    else doFragmentTransaction(SearchResultsFragment.class);
-                } catch (IllegalAccessException | InstantiationException e) { e.printStackTrace(); }
                 return false;
             }
         });

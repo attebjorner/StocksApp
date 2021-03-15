@@ -5,30 +5,22 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.stapp.ListItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import static com.example.stapp.api.SearchResultsDataRequest.getSearchResultsData;
 
-import static com.example.stapp.api.SearchResultsDataApi.getSearchResultsData;
-
-public class SearchResultsApi
+public class SearchResultsRequest
 {
     public static void getSearchResults(Context context, View rootView, String searchQuery)
     {
         final StringBuffer[] queryResults = {new StringBuffer()};
-//        String LOOKUP_REQUEST = "https://finnhub.io/api/v1/search?q=" + searchQuery
-//                + "&token=c152grv48v6r76ch3rq0";
-        String LOOKUP_REQUEST = "https://finnhub.io/api/v1/search?q=" + "micro"
+        String LOOKUP_REQUEST = "https://finnhub.io/api/v1/search?q=" + searchQuery
                 + "&token=c152grv48v6r76ch3rq0";
 
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, LOOKUP_REQUEST, null, response ->
         {
@@ -44,13 +36,11 @@ public class SearchResultsApi
                 }
             } catch (JSONException e) { e.printStackTrace(); }
 
-            //TODO: get comma-separated string query results and then search for them
+            //get comma-separated string query results and then search for them
             getSearchResultsData(context, rootView, queryResults[0].toString());
 
         }, error -> Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show()
         );
-
-        jsonObjectRequest.setTag("searchRequest");
-        requestQueue.add(jsonObjectRequest);
+        SearchResultsSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 }

@@ -8,13 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.stapp.ListItem;
-import com.example.stapp.adapters.MainListAdapter;
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
+import com.example.stapp.adapters.MainListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +21,7 @@ import org.json.JSONObject;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class MboumApi
+public class InitStocksRequest
 {
     public static void getMboumStocks(Context context, View rootView)
     {
@@ -31,7 +29,6 @@ public class MboumApi
         String REQUEST_URL = "https://mboum.com/api/v1/co/collections/?list=most_actives&start=1&" +
                 "apikey=xThUx6KqmURgMfT1xXXjcT8GIpB1zeJ6ghcWqT3eHeOTlJTtw9DnDq9qWP2g";
 
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, REQUEST_URL, null, response ->
                 {
@@ -73,6 +70,6 @@ public class MboumApi
                     rvStocks.setAdapter(adapter);
                 }, error -> Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show()
         );
-        requestQueue.add(jsonObjectRequest);
+        InitStocksSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 }

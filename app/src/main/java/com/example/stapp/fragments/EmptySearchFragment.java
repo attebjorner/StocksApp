@@ -35,6 +35,7 @@ public class EmptySearchFragment extends Fragment
 //        LinkedList<String> searchedFor = tinyDB.getObject("searched", LinkedList.class);
 
 //        TODO: list should be reversed in adapter
+        //TODO: onclick && update list when clicked on search enter
         LinkedList<String> searchedList = new LinkedList<>();
         searchedList.add("hui");
         searchedList.add("pizda");

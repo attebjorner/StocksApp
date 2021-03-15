@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class SearchResultsDataApi
+public class SearchResultsDataRequest
 {
     public static void getSearchResultsData(Context context, View rootView, String queryResults)
     {
@@ -36,7 +36,6 @@ public class SearchResultsDataApi
                 + "&apikey=ba5fd509861a483ebba2d3cebda53e84";
         StocksDailyContainer searchedStocksContainer = tinyDB.getObject("searchedStocks", StocksDailyContainer.class);
 
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, LOOKUP_DATA_REQUEST, null, response ->
         {
@@ -60,10 +59,9 @@ public class SearchResultsDataApi
             }
             tinyDB.putObject("searchedStocks", searchedStocksContainer);
 
-//            TODO: if quotesArray is empty
-//            TODO: save somewhere cache (daily, merge with mainStocks?)
             //TODO: check if new stocks are in favorites
 
+            if (searchResponseItems.isEmpty()) Toast.makeText(context, "No results", Toast.LENGTH_SHORT).show();
             RecyclerView rvSearchResults = (RecyclerView) rootView.findViewById(R.id.rvSearchResults);
             LinearLayoutManager llManager = new LinearLayoutManager(context);
             rvSearchResults.setLayoutManager(llManager);
@@ -71,9 +69,7 @@ public class SearchResultsDataApi
             rvSearchResults.setAdapter(adapter);
         }, error -> Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show()
         );
-
-        jsonObjectRequest.setTag("searchRequest");
-        requestQueue.add(jsonObjectRequest);
+        SearchResultsDataSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
     public static void addExistingStocks(StocksDailyContainer container,
