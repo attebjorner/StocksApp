@@ -15,12 +15,14 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.example.stapp.fragments.EmptySearchFragment;
+import com.example.stapp.fragments.SearchHistoryFragment;
 import com.example.stapp.fragments.FavoriteStocksFragment;
 import com.example.stapp.fragments.SearchResultsFragment;
 import com.example.stapp.fragments.StocksFragment;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     private Button btnStocks, btnFavorite, lastActiveMenuBtn;
     private LinearLayout llMenuButtons;
     private View mainFragment;
+    private TinyDB tinyDB;
     private int backPressedCounter = 0;
 
     @Override
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        tinyDB = new TinyDB(this);
 
         mainFragment = (View) findViewById(R.id.mainFragment);
         btnStocks = (Button) findViewById(R.id.btnStocks);
@@ -48,7 +52,9 @@ public class MainActivity extends AppCompatActivity
         llMenuButtons = (LinearLayout) findViewById(R.id.llMenuButtons);
         svStocks = (SearchView) findViewById(R.id.svStocks);
         svStocks.clearFocus();
-        int idSearchText = svStocks.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        int idSearchText = svStocks.getContext().getResources().getIdentifier(
+                "android:id/search_src_text", null, null
+        );
         TextView searchTextView = (TextView) svStocks.findViewById(idSearchText);
         searchTextView.setTextColor(getColor(R.color.black));
         searchTextView.setHintTextColor(getColor(R.color.black));
@@ -62,22 +68,24 @@ public class MainActivity extends AppCompatActivity
             {
                 try
                 {
-                    setEmptySearchFragment();
+                    setSearchHistoryFragment();
                 } catch (IllegalAccessException | InstantiationException e) { e.printStackTrace(); }
             }
         });
 
-//        RequestQueue requestQueue = Volley.newRequestQueue(this);
         svStocks.setOnQueryTextListener(new SearchView.OnQueryTextListener()
         {
             @Override
             public boolean onQueryTextSubmit(String query)
             {
-                //TODO: search something only when enter button is pressed, else > show 3rd fragm
-                try
+                if (query.length() != 0)
                 {
-                    if (query.length() != 0) doFragmentTransaction(SearchResultsFragment.class);
-                } catch (IllegalAccessException | InstantiationException e) { e.printStackTrace(); }
+                    addSearchedHistoryQuery(query);
+                    try
+                    {
+                        doFragmentTransaction(SearchResultsFragment.class);
+                    } catch (IllegalAccessException | InstantiationException e) { e.printStackTrace(); }
+                }
                 return false;
             }
 
@@ -89,55 +97,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public void onClickStocks(View view) throws IllegalAccessException, InstantiationException
-    {
-        setActiveButtonStyle(btnStocks, btnFavorite);
-        doFragmentTransaction(StocksFragment.class);
-    }
-
-    public void onClickFavorite(View view) throws IllegalAccessException, InstantiationException
-    {
-        setActiveButtonStyle(btnFavorite, btnStocks);
-        doFragmentTransaction(FavoriteStocksFragment.class);
-    }
-
-    public void doFragmentTransaction(Class<? extends Fragment> fragmentClass) throws InstantiationException, IllegalAccessException
-    {
-        Fragment fragment = fragmentClass.newInstance();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFragment, fragment);
-        ft.commit();
-    }
-
-    private void setActiveButtonStyle(Button btnPressed, Button btnUnpressed)
-    {
-        btnPressed.setTextSize(28);
-        btnPressed.setTextColor(getColor(R.color.black));
-        btnUnpressed.setTextSize(18);
-        btnUnpressed.setTextColor(getColor(R.color.gray));
-        lastActiveMenuBtn = btnPressed;
-    }
-
-    private void setEmptySearchFragment() throws IllegalAccessException, InstantiationException
-    {
-        llMenuButtons.animate().alpha(0.0f).setDuration(500);
-        mainFragment.animate()
-                .translationY(-(llMenuButtons.getHeight()))
-                .setDuration(500)
-                .setListener(new AnimatorListenerAdapter()
-                {
-                    @Override
-                    public void onAnimationEnd(Animator animation)
-                    {
-                        super.onAnimationEnd(animation);
-                        llMenuButtons.setVisibility(View.INVISIBLE);
-                    }
-                });
-        doFragmentTransaction(EmptySearchFragment.class);
-    }
-
-    //    TODO: onbackpressed if 3rd fragm then switch to menu fragms
-//    switch to last active menu fragment && visible menu buttons
+    //    switch to last active menu fragment && visible menu buttons
     @Override
     public void onBackPressed()
     {
@@ -163,5 +123,61 @@ public class MainActivity extends AppCompatActivity
             svStocks.clearFocus();
             backPressedCounter = 0;
         } catch (IllegalAccessException | InstantiationException e) { e.printStackTrace(); }
+    }
+
+    public void onClickStocks(View view) throws IllegalAccessException, InstantiationException
+    {
+        setActiveButtonStyle(btnStocks, btnFavorite);
+        doFragmentTransaction(StocksFragment.class);
+    }
+
+    public void onClickFavorite(View view) throws IllegalAccessException, InstantiationException
+    {
+        setActiveButtonStyle(btnFavorite, btnStocks);
+        doFragmentTransaction(FavoriteStocksFragment.class);
+    }
+
+    public void doFragmentTransaction(Class<? extends Fragment> fragmentClass)
+            throws InstantiationException, IllegalAccessException
+    {
+        Fragment fragment = fragmentClass.newInstance();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.mainFragment, fragment);
+        ft.commit();
+    }
+
+    private void setActiveButtonStyle(Button btnPressed, Button btnUnpressed)
+    {
+        btnPressed.setTextSize(28);
+        btnPressed.setTextColor(getColor(R.color.black));
+        btnUnpressed.setTextSize(18);
+        btnUnpressed.setTextColor(getColor(R.color.gray));
+        lastActiveMenuBtn = btnPressed;
+    }
+
+    private void setSearchHistoryFragment() throws IllegalAccessException, InstantiationException
+    {
+        llMenuButtons.animate().alpha(0.0f).setDuration(500);
+        mainFragment.animate()
+                .translationY(-(llMenuButtons.getHeight()))
+                .setDuration(500)
+                .setListener(new AnimatorListenerAdapter()
+                {
+                    @Override
+                    public void onAnimationEnd(Animator animation)
+                    {
+                        super.onAnimationEnd(animation);
+                        llMenuButtons.setVisibility(View.INVISIBLE);
+                    }
+                });
+        doFragmentTransaction(SearchHistoryFragment.class);
+    }
+
+    private void addSearchedHistoryQuery(String query)
+    {
+        ArrayList<String> searchedHistory = tinyDB.getListString("searchedHistory");
+        if (!searchedHistory.contains(query)) searchedHistory.add(query);
+        if (searchedHistory.size() == 101) searchedHistory.remove(0);
+        tinyDB.putListString("searchedHistory", searchedHistory);
     }
 }

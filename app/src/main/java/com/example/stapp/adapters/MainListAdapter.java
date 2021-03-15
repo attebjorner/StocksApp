@@ -41,8 +41,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.Stocks
     public StocksItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false
-                );
+                .inflate(R.layout.list_item, parent, false);
         return new StocksItemViewHolder(view);
     }
 
@@ -69,7 +68,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.Stocks
                 stocksList.get(position).isFavorite() ? STAR_COLORS[1] : STAR_COLORS[0]
         );
         holder.imbFavorite.setOnClickListener(
-                new Listener(stocksList.get(position), holder.imbFavorite, tinyDB)
+                new IsFavoriteListener(stocksList.get(position), holder.imbFavorite, tinyDB)
         );
     }
 
@@ -98,13 +97,13 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.Stocks
         }
     }
 
-    public static class Listener implements View.OnClickListener
+    public static class IsFavoriteListener implements View.OnClickListener
     {
         private final ListItem item;
         private final ImageButton imbFavorite;
         private final TinyDB tinyDB;
 
-        public Listener(ListItem item, ImageButton imbFavorite, TinyDB tinyDB)
+        public IsFavoriteListener(ListItem item, ImageButton imbFavorite, TinyDB tinyDB)
         {
             this.item = item;
             this.imbFavorite = imbFavorite;

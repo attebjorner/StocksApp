@@ -18,11 +18,6 @@ public class StocksDailyContainer
         for (ListItem item : stocksItems) stocksItemsSymbols.add(item.getSymbol());
     }
 
-    public void setDate(LocalDate date)
-    {
-        this.date = date.toString();
-    }
-
     public void setDateMan(String date)
     {
         this.date = date;
@@ -31,11 +26,6 @@ public class StocksDailyContainer
     public String getDate()
     {
         return date;
-    }
-
-    public void setStocksItems(ArrayList<ListItem> stocksItems)
-    {
-        this.stocksItems = stocksItems;
     }
 
     public ArrayList<ListItem> getStocksItems()

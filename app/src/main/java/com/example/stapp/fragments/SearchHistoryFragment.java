@@ -10,14 +10,18 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
-import com.example.stapp.adapters.EmptySearchAdapter;
+import com.example.stapp.adapters.SearchHistoryAdapter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 
-public class EmptySearchFragment extends Fragment
+public class SearchHistoryFragment extends Fragment
 {
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -30,27 +34,15 @@ public class EmptySearchFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.fragment_empty_search, container, false);
         RecyclerView rvSearched = (RecyclerView) rootView.findViewById(R.id.rvSearched);
+        SearchView svStocks = (SearchView) getActivity().findViewById(R.id.svStocks);
 
-//        TinyDB tinyDB = new TinyDB(getActivity());
-//        LinkedList<String> searchedFor = tinyDB.getObject("searched", LinkedList.class);
-
-//        TODO: list should be reversed in adapter
-        //TODO: onclick && update list when clicked on search enter
-        LinkedList<String> searchedList = new LinkedList<>();
-        searchedList.add("hui");
-        searchedList.add("pizda");
-        searchedList.add("manda");
-        searchedList.add("escho hui");
-        searchedList.add("pise4ka");
-        searchedList.add("hui");
-        searchedList.add("pizda");
-        searchedList.add("manda");
-        searchedList.add("escho hui");
-        searchedList.add("pise4ka");
+        TinyDB tinyDB = new TinyDB(getActivity());
+        ArrayList<String> searchedHistory = tinyDB.getListString("searchedHistory");
+        Collections.reverse(searchedHistory);
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.HORIZONTAL);
         rvSearched.setLayoutManager(layoutManager);
-        EmptySearchAdapter adapter = new EmptySearchAdapter(searchedList);
+        SearchHistoryAdapter adapter = new SearchHistoryAdapter(searchedHistory, svStocks);
         rvSearched.setAdapter(adapter);
 
         return rootView;
