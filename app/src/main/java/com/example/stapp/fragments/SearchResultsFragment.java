@@ -54,10 +54,10 @@ public class SearchResultsFragment extends Fragment
 //        TODO: result list from finhub, symb lookup -> symb and name, (or name from twelve?)
 //        quote -> cur price (c), change = c - pc, percChange = ((c - pc)*100)/ pc
 
-        LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
-        rvSearchResults.setLayoutManager(llManager);
-        MainListAdapter adapter = new MainListAdapter(new ArrayList<>(), getActivity());
-        rvSearchResults.setAdapter(adapter);
+//        LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
+//        rvSearchResults.setLayoutManager(llManager);
+//        MainListAdapter adapter = new MainListAdapter(new ArrayList<>(), getActivity());
+//        rvSearchResults.setAdapter(adapter);
 
         return rootView;
     }

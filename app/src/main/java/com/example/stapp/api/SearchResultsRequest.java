@@ -4,8 +4,11 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +22,7 @@ public class SearchResultsRequest
     {
         final StringBuffer[] queryResults = {new StringBuffer()};
         String LOOKUP_REQUEST = "https://finnhub.io/api/v1/search?q=" + searchQuery
-                + "&token=c152grv48v6r76ch3rq0";
+                + "&token=c18e4dn48v6oak5h46ug";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, LOOKUP_REQUEST, null, response ->
@@ -41,6 +44,11 @@ public class SearchResultsRequest
 
         }, error -> Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show()
         );
+//        because finnhub works very slow sometimes
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
         SearchResultsSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 }

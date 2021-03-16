@@ -51,6 +51,22 @@ public class FavoriteStocksFragment extends Fragment
         {
             if (item.isFavorite()) favList.add(item);
         }
+        //TODO: +favorites from another list
+        //TODO: update favorites that are not from main list
+        try
+        {
+            StocksDailyContainer searchedStocksContainer = tinyDB.getObject("searchedStocks", StocksDailyContainer.class);
+            ArrayList<ListItem> searchedStocks = searchedStocksContainer.getStocksItems();
+            for (ListItem item : searchedStocks)
+            {
+                if (favorites.contains(item.getSymbol()) && !mainStocks.getStocksItemsSymbols().contains(item.getSymbol()))
+                {
+                    item.setFavorite(true);
+                    favList.add(item);
+                }
+            }
+        } catch (NullPointerException e) { e.printStackTrace(); }
+
 
         LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
         rvFavorite.setLayoutManager(llManager);

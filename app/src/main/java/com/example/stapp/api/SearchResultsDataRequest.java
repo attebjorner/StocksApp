@@ -16,6 +16,7 @@ import com.example.stapp.adapters.MainListAdapter;
 
 import org.json.JSONObject;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -35,6 +36,7 @@ public class SearchResultsDataRequest
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, LOOKUP_DATA_REQUEST, null, response ->
         {
+            ArrayList<String> favorites = tinyDB.getListString("favorites");
             System.out.println("SEARCH RESULTS DATA API REQUEST");
             Iterator<String> keys = response.keys();
             while(keys.hasNext())
@@ -49,30 +51,40 @@ public class SearchResultsDataRequest
                             temp.getString("close"), temp.getString("change"),
                             temp.getString("percent_change")
                     );
+                    if (favorites.contains(tempSymbol)) newStock.setFavorite(true);
                     searchResponseItems.add(newStock);
                     searchedStocksContainer.updateStocksList(newStock);
                 } catch (Exception e) { e.printStackTrace(); }
             }
             tinyDB.putObject("searchedStocks", searchedStocksContainer);
-
             //TODO: check if new stocks are in favorites
-
-            if (searchResponseItems.isEmpty()) Toast.makeText(context, "No results", Toast.LENGTH_SHORT).show();
-            RecyclerView rvSearchResults = (RecyclerView) rootView.findViewById(R.id.rvSearchResults);
-            LinearLayoutManager llManager = new LinearLayoutManager(context);
-            rvSearchResults.setLayoutManager(llManager);
-            MainListAdapter adapter = new MainListAdapter(searchResponseItems, context);
-            rvSearchResults.setAdapter(adapter);
+            displaySearchResults(searchResponseItems, context, rootView);
         }, error -> Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show()
         );
-        SearchResultsDataSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        if (queryResults.length() != 0)
+        {
+            SearchResultsDataSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        } else displaySearchResults(searchResponseItems, context, rootView);
+    }
+
+    public static void displaySearchResults(ArrayList<ListItem> searchResponseItems,
+                                            Context context, View rootView)
+    {
+        if (searchResponseItems.isEmpty()) Toast.makeText(context, "No results", Toast.LENGTH_SHORT).show();
+        RecyclerView rvSearchResults = (RecyclerView) rootView.findViewById(R.id.rvSearchResults);
+        LinearLayoutManager llManager = new LinearLayoutManager(context);
+        rvSearchResults.setLayoutManager(llManager);
+        MainListAdapter adapter = new MainListAdapter(searchResponseItems, context);
+        rvSearchResults.setAdapter(adapter);
     }
 
     public static void addExistingStocks(StocksDailyContainer container,
-                                         ArrayList<ListItem> stocksList, String symbol)
+                                         ArrayList<ListItem> stocksList, String symbol, TinyDB tinyDB)
     {
+        ArrayList<String> favorites = tinyDB.getListString("favorites");
         int id = container.getStocksItemsSymbols().indexOf(symbol);
         stocksList.add(container.getStocksItems().get(id));
+        if (favorites.contains(symbol)) stocksList.get(stocksList.size()-1).setFavorite(true);
     }
 
     public static String manageExistingStocks(ArrayList<ListItem> responseItems, String query, TinyDB tinyDB)
@@ -84,7 +96,7 @@ public class SearchResultsDataRequest
             String sym = queryArray.get(i);
             if (searchedStocksContainer.getStocksItemsSymbols().contains(sym))
             {
-                addExistingStocks(searchedStocksContainer, responseItems, sym);
+                addExistingStocks(searchedStocksContainer, responseItems, sym, tinyDB);
                 queryArray.remove(i);
             }
         }

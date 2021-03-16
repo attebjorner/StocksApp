@@ -39,20 +39,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         tinyDB = new TinyDB(this);
 
-        ArrayDeque<String> test = new ArrayDeque<>();
-        test.push("hui1");
-        test.push("hui2");
-        test.push("hui3");
-        test.push("hui4");
-        test.push("hui5");
-        test.push("hui6");
-        test.push("hui7");
-        test.push("hui8");
-
-//        tinyDB.putObject("testArrayDeque", test);
-//        ArrayDeque<String> test2 = tinyDB.getObject("testArrayDeque", ArrayDeque.class);
-//        for (String s : test2) System.out.println(s);
-
         mainFragment = (View) findViewById(R.id.mainFragment);
         btnStocks = (Button) findViewById(R.id.btnStocks);
         btnFavorite = (Button) findViewById(R.id.btnFavorite);
@@ -133,6 +119,7 @@ public class MainActivity extends AppCompatActivity
         {
             if (lastActiveMenuBtn.equals(btnStocks)) onClickStocks(btnStocks);
             else onClickFavorite(btnFavorite);
+            svStocks.setQuery("", false);
             svStocks.clearFocus();
             backPressedCounter = 0;
         } catch (IllegalAccessException | InstantiationException e) { e.printStackTrace(); }

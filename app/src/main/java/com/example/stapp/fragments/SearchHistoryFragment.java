@@ -38,10 +38,6 @@ public class SearchHistoryFragment extends Fragment
         ArrayList<String> searchedHistory = tinyDB.getListString("searchedHistory");
         Collections.reverse(searchedHistory);
 
-//        ArrayDeque<String> searchHistory = tinyDB.getObject("searchHistory", ArrayDeque.class);
-//
-
-
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.HORIZONTAL);
         rvSearched.setLayoutManager(layoutManager);
         SearchHistoryAdapter adapter = new SearchHistoryAdapter(searchedHistory, svStocks);
