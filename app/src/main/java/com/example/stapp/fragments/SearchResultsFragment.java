@@ -1,15 +1,14 @@
 package com.example.stapp.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
@@ -49,7 +48,6 @@ public class SearchResultsFragment extends Fragment
             ));
         }
 
-//        ArrayList<ListItem> searchResults = new ArrayList<>();
         String searchQuery = svStocks.getQuery().toString();
         getSearchResults(getActivity(), rootView, searchQuery);
 

@@ -15,14 +15,13 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.stapp.fragments.SearchHistoryFragment;
 import com.example.stapp.fragments.FavoriteStocksFragment;
+import com.example.stapp.fragments.SearchHistoryFragment;
 import com.example.stapp.fragments.SearchResultsFragment;
 import com.example.stapp.fragments.StocksFragment;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -39,6 +38,20 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tinyDB = new TinyDB(this);
+
+        ArrayDeque<String> test = new ArrayDeque<>();
+        test.push("hui1");
+        test.push("hui2");
+        test.push("hui3");
+        test.push("hui4");
+        test.push("hui5");
+        test.push("hui6");
+        test.push("hui7");
+        test.push("hui8");
+
+//        tinyDB.putObject("testArrayDeque", test);
+//        ArrayDeque<String> test2 = tinyDB.getObject("testArrayDeque", ArrayDeque.class);
+//        for (String s : test2) System.out.println(s);
 
         mainFragment = (View) findViewById(R.id.mainFragment);
         btnStocks = (Button) findViewById(R.id.btnStocks);

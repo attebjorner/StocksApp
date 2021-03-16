@@ -1,25 +1,23 @@
 package com.example.stapp.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.SearchView;
-import android.widget.TextView;
-
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
 import com.example.stapp.adapters.SearchHistoryAdapter;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 
 public class SearchHistoryFragment extends Fragment
 {
@@ -39,6 +37,10 @@ public class SearchHistoryFragment extends Fragment
         TinyDB tinyDB = new TinyDB(getActivity());
         ArrayList<String> searchedHistory = tinyDB.getListString("searchedHistory");
         Collections.reverse(searchedHistory);
+
+//        ArrayDeque<String> searchHistory = tinyDB.getObject("searchHistory", ArrayDeque.class);
+//
+
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.HORIZONTAL);
         rvSearched.setLayoutManager(layoutManager);

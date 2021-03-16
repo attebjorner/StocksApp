@@ -1,10 +1,8 @@
 package com.example.stapp.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -13,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stapp.R;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdapter.EmptySearchViewHolder>
 {
