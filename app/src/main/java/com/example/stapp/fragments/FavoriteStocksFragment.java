@@ -34,25 +34,17 @@ public class FavoriteStocksFragment extends Fragment
 
         TinyDB tinyDB = new TinyDB(getActivity());
 
-        StocksDailyContainer mainStocks;
-        mainStocks = tinyDB.getObject("mainStocks", StocksDailyContainer.class);
+        StocksDailyContainer mainStocks = tinyDB.getObject("mainStocks", StocksDailyContainer.class);
         ArrayList<ListItem> stocksList = mainStocks.getStocksItems();
 
-        ArrayList<String> favorites;
-        favorites = tinyDB.getListString("favorites");
-
+        ArrayList<String> favorites = tinyDB.getListString("favorites");
         for (int i=0; i<stocksList.size(); i++)
         {
             if (favorites.contains(stocksList.get(i).getSymbol())) stocksList.get(i).setFavorite(true);
         }
 
         ArrayList<ListItem> favList = new ArrayList<>();
-        for (ListItem item : stocksList)
-        {
-            if (item.isFavorite()) favList.add(item);
-        }
-        //TODO: +favorites from another list
-        //TODO: update favorites that are not from main list
+        for (ListItem item : stocksList) if (item.isFavorite()) favList.add(item);
         try
         {
             StocksDailyContainer searchedStocksContainer = tinyDB.getObject("searchedStocks", StocksDailyContainer.class);

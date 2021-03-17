@@ -57,7 +57,6 @@ public class SearchResultsDataRequest
                 } catch (Exception e) { e.printStackTrace(); }
             }
             tinyDB.putObject("searchedStocks", searchedStocksContainer);
-            //TODO: check if new stocks are in favorites
             displaySearchResults(searchResponseItems, context, rootView);
         }, error -> Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show()
         );

@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed()
     {
         backPressedCounter++;
-        if (backPressedCounter == 2) super.onBackPressed();
+        if (backPressedCounter > 2) super.onBackPressed();
         llMenuButtons.animate().translationY(0).alpha(1.0f).setDuration(500);
         mainFragment.animate()
                 .translationY(0)
