@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stapp.ListItem;
+import com.example.stapp.models.ListItem;
 import com.example.stapp.adapters.MainListAdapter;
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
-import com.example.stapp.api.StocksDailyContainer;
+import com.example.stapp.models.StocksDailyContainer;
 
 import java.util.ArrayList;
 

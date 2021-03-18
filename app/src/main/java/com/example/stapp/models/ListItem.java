@@ -1,4 +1,4 @@
-package com.example.stapp;
+package com.example.stapp.models;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

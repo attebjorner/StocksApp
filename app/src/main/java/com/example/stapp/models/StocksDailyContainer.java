@@ -1,6 +1,6 @@
-package com.example.stapp.api;
+package com.example.stapp.models;
 
-import com.example.stapp.ListItem;
+import com.example.stapp.models.ListItem;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

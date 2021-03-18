@@ -1,4 +1,4 @@
-package com.example.stapp;
+package com.example.stapp.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -15,6 +15,8 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.stapp.R;
+import com.example.stapp.TinyDB;
 import com.example.stapp.fragments.FavoriteStocksFragment;
 import com.example.stapp.fragments.SearchHistoryFragment;
 import com.example.stapp.fragments.SearchResultsFragment;

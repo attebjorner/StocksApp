@@ -1,4 +1,4 @@
-package com.example.stapp.api;
+package com.example.stapp.mainActivityApi;
 
 import android.content.Context;
 import android.view.View;
@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.stapp.ListItem;
+import com.example.stapp.models.ListItem;
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
 import com.example.stapp.adapters.MainListAdapter;
+import com.example.stapp.models.StocksDailyContainer;
 
 import org.json.JSONObject;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;

@@ -1,4 +1,4 @@
-package com.example.stapp.api;
+package com.example.stapp.mainActivityApi;
 
 import android.content.Context;
 
@@ -8,21 +8,21 @@ import com.android.volley.toolbox.Volley;
 
 import java.lang.ref.WeakReference;
 
-public class SearchResultsSingleton
+public class SearchResultsDataSingleton
 {
-    private static SearchResultsSingleton instance;
+    private static SearchResultsDataSingleton instance;
     private RequestQueue requestQueue;
     private static WeakReference<Context> ctx;
 
-    private SearchResultsSingleton(Context context)
+    private SearchResultsDataSingleton(Context context)
     {
         ctx = new WeakReference<>(context);
         requestQueue = getRequestQueue();
     }
 
-    public static synchronized SearchResultsSingleton getInstance(Context context)
+    public static synchronized SearchResultsDataSingleton getInstance(Context context)
     {
-        if (instance == null) instance = new SearchResultsSingleton(context);
+        if (instance == null) instance = new SearchResultsDataSingleton(context);
         return instance;
     }
 

@@ -7,18 +7,15 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
-import com.example.stapp.adapters.MainListAdapter;
-import com.example.stapp.api.StocksDailyContainer;
+import com.example.stapp.models.StocksDailyContainer;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
-import static com.example.stapp.api.SearchResultsRequest.getSearchResults;
+import static com.example.stapp.mainActivityApi.SearchResultsRequest.getSearchResults;
 
 public class SearchResultsFragment extends Fragment
 {

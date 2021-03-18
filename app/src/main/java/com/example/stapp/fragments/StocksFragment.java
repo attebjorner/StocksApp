@@ -10,16 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.stapp.ListItem;
+import com.example.stapp.models.ListItem;
 import com.example.stapp.adapters.MainListAdapter;
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
-import com.example.stapp.api.StocksDailyContainer;
+import com.example.stapp.models.StocksDailyContainer;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static com.example.stapp.api.InitStocksRequest.*;
+import static com.example.stapp.mainActivityApi.InitStocksRequest.*;
 
 public class StocksFragment extends Fragment
 {

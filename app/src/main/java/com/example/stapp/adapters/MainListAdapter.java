@@ -8,11 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stapp.ListItem;
+import com.example.stapp.models.ListItem;
 import com.example.stapp.R;
 import com.example.stapp.TinyDB;
 import com.squareup.picasso.Picasso;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
-public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.StocksItemViewHolder>
+public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHolder>
 {
     private final ArrayList<ListItem> stocksList;
     private final TinyDB tinyDB;
@@ -38,15 +39,17 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.Stocks
 
     @NonNull
     @Override
-    public StocksItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
-        return new StocksItemViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.list_item, parent, false
+        );
+        view.setOnClickListener(new ListItemListener());
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StocksItemViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
         holder.itemView.setBackgroundResource(R.drawable.stocks_list_item_shape);
         GradientDrawable drawable = (GradientDrawable) holder.itemView.getBackground();
@@ -78,13 +81,13 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.Stocks
         return stocksList.size();
     }
 
-    public final static class StocksItemViewHolder extends RecyclerView.ViewHolder
+    public final static class ViewHolder extends RecyclerView.ViewHolder
     {
         TextView tvSymbol, tvName, tvPrice, tvChange;
         ImageButton imbFavorite;
         ImageView imvLogo;
 
-        public StocksItemViewHolder(@NonNull View itemView)
+        public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
 
@@ -119,6 +122,17 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.Stocks
             if (item.isFavorite()) temp.add(item.getSymbol());
             else temp.remove(item.getSymbol());
             tinyDB.putListString("favorites", temp);
+        }
+    }
+
+    public static class ListItemListener implements View.OnClickListener
+    {
+
+        @Override
+        public void onClick(View v)
+        {
+//            TODO: go to details actiivty
+            System.out.println(123);
         }
     }
 }

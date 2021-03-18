@@ -13,7 +13,7 @@ import com.example.stapp.R;
 
 import java.util.ArrayList;
 
-public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdapter.EmptySearchViewHolder>
+public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdapter.ViewHolder>
 {
     private final ArrayList<String> searchedList;
     private final SearchView svStocks;
@@ -26,15 +26,16 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdap
 
     @NonNull
     @Override
-    public EmptySearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.searched_list_item, parent, false);
-        return new EmptySearchViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.searched_list_item, parent, false
+        );
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EmptySearchViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
         holder.tvSearched.setText(searchedList.get(position));
         holder.tvSearched.setOnClickListener(
@@ -48,11 +49,11 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdap
         return searchedList.size();
     }
 
-    public final static class EmptySearchViewHolder extends RecyclerView.ViewHolder
+    public final static class ViewHolder extends RecyclerView.ViewHolder
     {
         TextView tvSearched;
 
-        public EmptySearchViewHolder(@NonNull View itemView)
+        public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
             tvSearched = (TextView) itemView.findViewById(R.id.tvSearched);
