@@ -9,11 +9,10 @@ import android.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stapp.utils.CurrentDate;
 import com.example.stapp.R;
-import com.example.stapp.TinyDB;
+import com.example.stapp.utils.TinyDB;
 import com.example.stapp.models.StocksDailyContainer;
-
-import java.time.LocalDate;
 
 import static com.example.stapp.mainActivityApi.SearchResultsRequest.getSearchResults;
 
@@ -37,11 +36,11 @@ public class SearchResultsFragment extends Fragment
         try
         {
             StocksDailyContainer temp = tinyDB.getObject("searchedStocks", StocksDailyContainer.class);
-            if (!temp.getDate().equals(LocalDate.now().toString())) throw new Exception();
+            if (!temp.getDate().equals(CurrentDate.now())) throw new Exception();
         } catch (Exception e)
         {
             tinyDB.putObject("searchedStocks", new StocksDailyContainer(
-                    LocalDate.now(), tinyDB.getObject("mainStocks", StocksDailyContainer.class).getStocksItems()
+                    CurrentDate.now(), tinyDB.getObject("mainStocks", StocksDailyContainer.class).getStocksItems()
             ));
         }
 

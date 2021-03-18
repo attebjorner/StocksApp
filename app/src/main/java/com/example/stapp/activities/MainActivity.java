@@ -16,13 +16,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.stapp.R;
-import com.example.stapp.TinyDB;
+import com.example.stapp.utils.TinyDB;
 import com.example.stapp.fragments.FavoriteStocksFragment;
 import com.example.stapp.fragments.SearchHistoryFragment;
 import com.example.stapp.fragments.SearchResultsFragment;
 import com.example.stapp.fragments.StocksFragment;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity

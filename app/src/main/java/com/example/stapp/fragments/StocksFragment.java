@@ -10,13 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.stapp.utils.CurrentDate;
 import com.example.stapp.models.ListItem;
 import com.example.stapp.adapters.MainListAdapter;
 import com.example.stapp.R;
-import com.example.stapp.TinyDB;
+import com.example.stapp.utils.TinyDB;
 import com.example.stapp.models.StocksDailyContainer;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static com.example.stapp.mainActivityApi.InitStocksRequest.*;
@@ -43,9 +43,9 @@ public class StocksFragment extends Fragment
             if (mainStocks.getStocksItems() == null) throw new NullPointerException();
         } catch (NullPointerException e)
         {
-            mainStocks = new StocksDailyContainer(LocalDate.now(), new ArrayList<>());
+            mainStocks = new StocksDailyContainer(CurrentDate.now(), new ArrayList<>());
         }
-        if (!mainStocks.getDate().equals(LocalDate.now().toString()) || mainStocks.getStocksItems().isEmpty())
+        if (!mainStocks.getDate().equals(CurrentDate.now()) || mainStocks.getStocksItems().isEmpty())
         {
             getMboumStocks(getActivity(), rootView);
         }

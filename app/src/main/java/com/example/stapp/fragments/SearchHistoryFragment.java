@@ -12,10 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.stapp.R;
-import com.example.stapp.TinyDB;
+import com.example.stapp.utils.TinyDB;
 import com.example.stapp.adapters.SearchHistoryAdapter;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 

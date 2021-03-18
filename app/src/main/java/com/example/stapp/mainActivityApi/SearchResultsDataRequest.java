@@ -11,7 +11,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.stapp.models.ListItem;
 import com.example.stapp.R;
-import com.example.stapp.TinyDB;
+import com.example.stapp.utils.TinyDB;
 import com.example.stapp.adapters.MainListAdapter;
 import com.example.stapp.models.StocksDailyContainer;
 
@@ -101,6 +101,10 @@ public class SearchResultsDataRequest
         }
 //        because I have 8 requests maximum per minute
         if (queryArray.size() > 8) queryArray = new ArrayList<>(queryArray.subList(0, 8));
-        return String.join(",", queryArray);
+
+        StringBuilder queries = new StringBuilder();
+        for (String s : queryArray) queries.append(s).append(",");
+        queries.deleteCharAt(queries.length()-1);
+        return queries.toString();
     }
 }

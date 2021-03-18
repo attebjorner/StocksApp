@@ -8,12 +8,19 @@ import java.util.ArrayList;
 public class StocksDailyContainer
 {
     private String date;
-    private ArrayList<ListItem> stocksItems;
+    private final ArrayList<ListItem> stocksItems;
     private final ArrayList<String> stocksItemsSymbols = new ArrayList<>();
 
-    public StocksDailyContainer(LocalDate date, ArrayList<ListItem> stocksItems)
+//    public StocksDailyContainer(LocalDate date, ArrayList<ListItem> stocksItems)
+//    {
+//        this.date = date.toString();
+//        this.stocksItems = stocksItems;
+//        for (ListItem item : stocksItems) stocksItemsSymbols.add(item.getSymbol());
+//    }
+
+    public StocksDailyContainer(String date, ArrayList<ListItem> stocksItems)
     {
-        this.date = date.toString();
+        this.date = date;
         this.stocksItems = stocksItems;
         for (ListItem item : stocksItems) stocksItemsSymbols.add(item.getSymbol());
     }

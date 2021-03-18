@@ -9,9 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.stapp.utils.CurrentDate;
 import com.example.stapp.models.ListItem;
 import com.example.stapp.R;
-import com.example.stapp.TinyDB;
+import com.example.stapp.utils.TinyDB;
 import com.example.stapp.adapters.MainListAdapter;
 import com.example.stapp.models.StocksDailyContainer;
 
@@ -19,7 +20,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class InitStocksRequest
@@ -62,7 +62,7 @@ public class InitStocksRequest
                         }
                     }
 
-                    tinyDB.putObject("mainStocks", new StocksDailyContainer(LocalDate.now(), stocksResponseItems));
+                    tinyDB.putObject("mainStocks", new StocksDailyContainer(CurrentDate.now(), stocksResponseItems));
 
                     RecyclerView rvStocks = (RecyclerView) rootView.findViewById(R.id.rvStocks);
                     LinearLayoutManager llManager = new LinearLayoutManager(context);

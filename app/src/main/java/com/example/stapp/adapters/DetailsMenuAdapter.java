@@ -27,7 +27,7 @@ public class DetailsMenuAdapter extends RecyclerView.Adapter<DetailsMenuAdapter.
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.searched_list_item, parent, false
+                R.layout.details_menu_item, parent, false
         );
         return new ViewHolder(view);
     }
@@ -57,22 +57,19 @@ public class DetailsMenuAdapter extends RecyclerView.Adapter<DetailsMenuAdapter.
     }
 
 //    TODO: listneer
-//    public static class SearchedListener implements View.OnClickListener
+//    public static class MenuListener implements View.OnClickListener
 //    {
-//        private final String searched;
-//        private final SearchView svStocks;
+//        private final TextView tvMenu;
 //
-//        public SearchedListener(String searched, SearchView svStocks)
+//        public MenuListener(TextView tvMenu)
 //        {
-//            this.searched = searched;
-//            this.svStocks = svStocks;
+//            this.tvMenu = tvMenu;
 //        }
 //
 //        @Override
 //        public void onClick(View v)
 //        {
-//            svStocks.setQuery(searched, true);
-//            svStocks.clearFocus();
+//
 //        }
 //    }
 }

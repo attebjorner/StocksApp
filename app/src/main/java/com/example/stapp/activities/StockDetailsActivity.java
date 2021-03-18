@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.webkit.WebView;
 
 import com.example.stapp.R;
-import com.example.stapp.WidgetRequests;
+import com.example.stapp.utils.WidgetRequests;
 import com.example.stapp.adapters.DetailsMenuAdapter;
 
 import java.util.ArrayList;
@@ -30,16 +30,19 @@ public class StockDetailsActivity extends AppCompatActivity
 
 //TODO: recycler view
         RecyclerView rvMenu = (RecyclerView) findViewById(R.id.rvDetailsMenu);
-        LinearLayoutManager llManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager llManager = new LinearLayoutManager(
+                this, LinearLayoutManager.HORIZONTAL, false
+        );
         rvMenu.setLayoutManager(llManager);
         rvMenu.setAdapter(new DetailsMenuAdapter(MENU_BUTTONS));
         
 
         WebView webView = (WebView) findViewById(R.id.detailWebView);
         String stock = "AAPL";
-        String htmlWidget = WidgetRequests.getFinancials(stock);
+        String htmlWidget = WidgetRequests.getStockChart(stock);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadData(htmlWidget, "text/html; charset=utf-8", "UTF-8");
+//        webView.loadUrl(htmlWidget);
 
 //        TODO: override back to go back to previous fragment
     }

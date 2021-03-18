@@ -1,6 +1,7 @@
 package com.example.stapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stapp.activities.StockDetailsActivity;
 import com.example.stapp.models.ListItem;
 import com.example.stapp.R;
-import com.example.stapp.TinyDB;
+import com.example.stapp.utils.TinyDB;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
 {
     private final ArrayList<ListItem> stocksList;
     private final TinyDB tinyDB;
+    private final Context context;
     private static final int[] ITEM_COLORS = new int[]{0xFFF0F4F7, 0xFFFFFFFF};
     private static final int[] CHANGE_COLORS = new int[]{0xFF24B25D, 0xFFB22424}; //green, red
     private static final int[] STAR_COLORS = new int[]{0xFFBABABA, 0xFFFFCA1C}; //gray, yellow
@@ -34,6 +36,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
     public MainListAdapter(ArrayList<ListItem> stocksList, Context context)
     {
         this.stocksList = stocksList;
+        this.context = context;
         tinyDB = new TinyDB(context);
     }
 
@@ -44,7 +47,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.list_item, parent, false
         );
-        view.setOnClickListener(new ListItemListener());
+        view.setOnClickListener(new ListItemListener(context));
         return new ViewHolder(view);
     }
 
@@ -127,11 +130,18 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
 
     public static class ListItemListener implements View.OnClickListener
     {
+        private final Context context;
+
+        ListItemListener(Context context)
+        {
+            this.context = context;
+        }
 
         @Override
         public void onClick(View v)
         {
-//            TODO: go to details actiivty
+            Intent intent = new Intent(context, StockDetailsActivity.class);
+            context.startActivity(intent);
             System.out.println(123);
         }
     }

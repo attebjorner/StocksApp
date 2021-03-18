@@ -1,4 +1,4 @@
-package com.example.stapp;
+package com.example.stapp.utils;
 
 public class WidgetRequests
 {
@@ -16,8 +16,8 @@ public class WidgetRequests
             "    ]\n" +
             "  ],\n" +
             "  \"chartOnly\": false,\n" +
-            "  \"width\": \"100%\",\n" +
-            "  \"height\": \"100%\",\n" +
+            "  \"width\": \"100%%\",\n" +
+            "  \"height\": \"100%%\",\n" +
             "  \"locale\": \"en\",\n" +
             "  \"colorTheme\": \"light\",\n" +
             "  \"gridLineColor\": \"#F0F3FA\",\n" +
@@ -61,8 +61,8 @@ public class WidgetRequests
             "  \"isTransparent\": false,\n" +
             "  \"largeChartUrl\": \"\",\n" +
             "  \"displayMode\": \"regular\",\n" +
-            "  \"width\": \"100%\",\n" +
-            "  \"height\": \"100%\",\n" +
+            "  \"width\": \"100%%\",\n" +
+            "  \"height\": \"100%%\",\n" +
             "  \"locale\": \"en\"\n" +
             "}\n" +
             "  </script>\n" +
