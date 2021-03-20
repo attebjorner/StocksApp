@@ -22,7 +22,7 @@
             app:srcCompat="@drawable/back_arrow_ic" />
 
         <TextView
-            android:id="@+id/tvStockDetail"
+            android:id="@+id/tvSymbolDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView"

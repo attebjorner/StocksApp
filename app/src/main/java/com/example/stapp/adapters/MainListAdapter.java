@@ -47,7 +47,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.list_item, parent, false
         );
-        view.setOnClickListener(new ListItemListener(context));
+//        view.setOnClickListener(new ListItemListener(context));
         return new ViewHolder(view);
     }
 
@@ -57,8 +57,14 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
         holder.itemView.setBackgroundResource(R.drawable.stocks_list_item_shape);
         GradientDrawable drawable = (GradientDrawable) holder.itemView.getBackground();
         drawable.setColor(ITEM_COLORS[position % 2]);
+        holder.itemView.setOnClickListener(new ListItemListener(
+                context,
+                stocksList.get(position).getSymbol(),
+                stocksList.get(position).getName()
+        ));
 
         holder.tvSymbol.setText(stocksList.get(position).getSymbol());
+        //TODO: text overflow ellipsis
         holder.tvName.setText(stocksList.get(position).getName());
         holder.tvPrice.setText(stocksList.get(position).getPrice());
         holder.tvChange.setText(stocksList.get(position).getChange());
@@ -131,16 +137,20 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
     public static class ListItemListener implements View.OnClickListener
     {
         private final Context context;
+        private final String[] stockInfo = new String[2];
 
-        ListItemListener(Context context)
+        ListItemListener(Context context, String symbol, String name)
         {
             this.context = context;
+            stockInfo[0] = symbol;
+            stockInfo[1] = name;
         }
 
         @Override
         public void onClick(View v)
         {
             Intent intent = new Intent(context, StockDetailsActivity.class);
+            intent.putExtra("stockInfo", stockInfo);
             context.startActivity(intent);
             System.out.println(123);
         }
