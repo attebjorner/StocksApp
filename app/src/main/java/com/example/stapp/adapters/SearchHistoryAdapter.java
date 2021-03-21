@@ -11,17 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stapp.R;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdapter.ViewHolder>
 {
     private final ArrayList<String> searchedList;
-    private final SearchView svStocks;
+    private static WeakReference<SearchView> svStocks;
 
     public SearchHistoryAdapter(ArrayList<String> searchedList, SearchView svStocks)
     {
         this.searchedList = searchedList;
-        this.svStocks = svStocks;
+        SearchHistoryAdapter.svStocks = new WeakReference<>(svStocks);
     }
 
     @NonNull
@@ -39,7 +40,7 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdap
     {
         holder.tvSearched.setText(searchedList.get(position));
         holder.tvSearched.setOnClickListener(
-                new SearchedListener(searchedList.get(position), svStocks)
+                new SearchedListener(searchedList.get(position))
         );
     }
 
@@ -63,19 +64,17 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdap
     public static class SearchedListener implements View.OnClickListener
     {
         private final String searched;
-        private final SearchView svStocks;
 
-        public SearchedListener(String searched, SearchView svStocks)
+        public SearchedListener(String searched)
         {
             this.searched = searched;
-            this.svStocks = svStocks;
         }
 
         @Override
         public void onClick(View v)
         {
-            svStocks.setQuery(searched, true);
-            svStocks.clearFocus();
+            svStocks.get().setQuery(searched, true);
+            svStocks.get().clearFocus();
         }
     }
 }

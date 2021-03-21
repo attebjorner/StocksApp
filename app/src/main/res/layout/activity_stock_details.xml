@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.StockDetailsActivity">
+    tools:context=".view.activities.StockDetailsActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,7 +25,6 @@
             android:id="@+id/tvSymbolDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
             android:fontFamily="@font/montserratbold"
             android:textSize="18sp"
             android:textColor="@color/black"
@@ -39,17 +38,19 @@
             android:fontFamily="@font/montserratsemibold"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:text="TextView"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"/>
 
         <ImageButton
             android:id="@+id/barFavorite"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:backgroundTint="@color/white"
-            app:srcCompat="@drawable/star"
-            android:layout_alignParentEnd="true"/>
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginVertical="12dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="4dp"
+            android:background="#00ffffff"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/star_details_empty" />
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

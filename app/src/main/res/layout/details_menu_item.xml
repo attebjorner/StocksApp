@@ -11,5 +11,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/gray"
         android:fontFamily="@font/montserratsemibold"
+        android:layout_gravity="bottom"
         android:textSize="14sp" />
 </LinearLayout>

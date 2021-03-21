@@ -1,4 +1,4 @@
-package com.example.stapp.fragments;
+package com.example.stapp.view.fragments;
 
 import android.os.Bundle;
 
@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.stapp.utils.CurrentDate;
+import com.example.stapp.utils.DateUtil;
 import com.example.stapp.models.ListItem;
 import com.example.stapp.adapters.MainListAdapter;
 import com.example.stapp.R;
@@ -43,9 +43,9 @@ public class StocksFragment extends Fragment
             if (mainStocks.getStocksItems() == null) throw new NullPointerException();
         } catch (NullPointerException e)
         {
-            mainStocks = new StocksDailyContainer(CurrentDate.now(), new ArrayList<>());
+            mainStocks = new StocksDailyContainer(DateUtil.now(), new ArrayList<>());
         }
-        if (!mainStocks.getDate().equals(CurrentDate.now()) || mainStocks.getStocksItems().isEmpty())
+        if (!mainStocks.getDate().equals(DateUtil.now()) || mainStocks.getStocksItems().isEmpty())
         {
             getMboumStocks(getActivity(), rootView);
         }
@@ -65,5 +65,13 @@ public class StocksFragment extends Fragment
         rvStocks.setAdapter(adapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onResume()
+    {
+        System.out.println("HUI HUI HUI HUI HUI");
+//        TODO: update method in adapter?
+        super.onResume();
     }
 }

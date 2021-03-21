@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stapp.activities.StockDetailsActivity;
+import com.example.stapp.view.activities.StockDetailsActivity;
 import com.example.stapp.models.ListItem;
 import com.example.stapp.R;
 import com.example.stapp.utils.TinyDB;
@@ -152,7 +152,6 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
             Intent intent = new Intent(context, StockDetailsActivity.class);
             intent.putExtra("stockInfo", stockInfo);
             context.startActivity(intent);
-            System.out.println(123);
         }
     }
 }

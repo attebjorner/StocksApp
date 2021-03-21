@@ -1,4 +1,4 @@
-package com.example.stapp.fragments;
+package com.example.stapp.view.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stapp.utils.CurrentDate;
+import com.example.stapp.utils.DateUtil;
 import com.example.stapp.R;
 import com.example.stapp.utils.TinyDB;
 import com.example.stapp.models.StocksDailyContainer;
@@ -30,17 +30,18 @@ public class SearchResultsFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_search_results, container, false);
         RecyclerView rvSearchResults = (RecyclerView) rootView.findViewById(R.id.rvSearchResults);
         SearchView svStocks = (SearchView) getActivity().findViewById(R.id.svStocks);
+        svStocks.setBackgroundResource(R.drawable.search_rounded_focus);
 
         //create it here so that in api it will already exists
         TinyDB tinyDB = new TinyDB(getActivity());
         try
         {
             StocksDailyContainer temp = tinyDB.getObject("searchedStocks", StocksDailyContainer.class);
-            if (!temp.getDate().equals(CurrentDate.now())) throw new Exception();
+            if (!temp.getDate().equals(DateUtil.now())) throw new Exception();
         } catch (Exception e)
         {
             tinyDB.putObject("searchedStocks", new StocksDailyContainer(
-                    CurrentDate.now(), tinyDB.getObject("mainStocks", StocksDailyContainer.class).getStocksItems()
+                    DateUtil.now(), tinyDB.getObject("mainStocks", StocksDailyContainer.class).getStocksItems()
             ));
         }
 

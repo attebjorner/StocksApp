@@ -1,4 +1,4 @@
-package com.example.stapp.fragments;
+package com.example.stapp.view.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,6 +32,7 @@ public class SearchHistoryFragment extends Fragment
         View rootView = inflater.inflate(R.layout.fragment_empty_search, container, false);
         RecyclerView rvSearched = (RecyclerView) rootView.findViewById(R.id.rvSearched);
         SearchView svStocks = (SearchView) getActivity().findViewById(R.id.svStocks);
+        svStocks.setBackgroundResource(R.drawable.search_rounded_focus);
 
         TinyDB tinyDB = new TinyDB(getActivity());
         ArrayList<String> searchedHistory = tinyDB.getListString("searchedHistory");

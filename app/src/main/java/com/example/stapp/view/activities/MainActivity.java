@@ -1,4 +1,4 @@
-package com.example.stapp.activities;
+package com.example.stapp.view.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -17,10 +17,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.stapp.R;
 import com.example.stapp.utils.TinyDB;
-import com.example.stapp.fragments.FavoriteStocksFragment;
-import com.example.stapp.fragments.SearchHistoryFragment;
-import com.example.stapp.fragments.SearchResultsFragment;
-import com.example.stapp.fragments.StocksFragment;
+import com.example.stapp.view.fragments.FavoriteStocksFragment;
+import com.example.stapp.view.fragments.SearchHistoryFragment;
+import com.example.stapp.view.fragments.SearchResultsFragment;
+import com.example.stapp.view.fragments.StocksFragment;
 
 import java.util.ArrayList;
 
@@ -97,12 +97,12 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    //    switch to last active menu fragment && visible menu buttons
+//    switch to last active menu fragment && visible menu buttons
     @Override
     public void onBackPressed()
     {
         backPressedCounter++;
-        if (backPressedCounter > 2) super.onBackPressed();
+        if (backPressedCounter == 2) super.onBackPressed();
         llMenuButtons.animate().translationY(0).alpha(1.0f).setDuration(500);
         mainFragment.animate()
                 .translationY(0)
@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity
             if (lastActiveMenuBtn.equals(btnStocks)) onClickStocks(btnStocks);
             else onClickFavorite(btnFavorite);
             svStocks.setQuery("", false);
+            svStocks.setBackgroundResource(R.drawable.search_rounded);
             svStocks.clearFocus();
             backPressedCounter = 0;
         } catch (IllegalAccessException | InstantiationException e) { e.printStackTrace(); }

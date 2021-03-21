@@ -2,7 +2,9 @@ package com.example.stapp.utils;
 
 public class WidgetRequests
 {
-    private static final String STOCK_CHART = "<!-- TradingView Widget BEGIN -->\n" +
+    private static final String[] WIDGETS = {
+//            Stock Chart
+            "<!-- TradingView Widget BEGIN -->\n" +
             "<div class=\"tradingview-widget-container\">\n" +
             "  <div id=\"tradingview_f724b\"></div>\n" +
             "  <div class=\"tradingview-widget-copyright\"><a href=\"https://www.tradingview.com/symbols/%s/\" rel=\"noopener\" target=\"_blank\"><span class=\"blue-text\">%s Stock Price Today</span></a> by TradingView</div>\n" +
@@ -31,26 +33,30 @@ public class WidgetRequests
             "  );\n" +
             "  </script>\n" +
             "</div>\n" +
-            "<!-- TradingView Widget END -->";
-
-    private static final String PROFILE = "<!-- TradingView Widget BEGIN -->\n" +
+            "<!-- TradingView Widget END -->",
+//            Recommendations
+            "https://widget.finnhub.io/widgets/recommendation?symbol=%s",
+//            Profile
+            "<!-- TradingView Widget BEGIN -->\n" +
             "<div class=\"tradingview-widget-container\">\n" +
             "  <div class=\"tradingview-widget-container__widget\"></div>\n" +
             "  <div class=\"tradingview-widget-copyright\"><a href=\"https://www.tradingview.com/symbols/%s/\" rel=\"noopener\" target=\"_blank\"><span class=\"blue-text\">%s Profile</span></a> by TradingView</div>\n" +
             "  <script type=\"text/javascript\" src=\"https://s3.tradingview.com/external-embedding/embed-widget-symbol-profile.js\" async>\n" +
             "  {\n" +
             "  \"symbol\": \"%s\",\n" +
-            "  \"width\": 480,\n" +
-            "  \"height\": 650,\n" +
+            "  \"width\": \"100%%\",\n" +
+            "  \"height\": \"100%%\",\n" +
             "  \"colorTheme\": \"light\",\n" +
             "  \"isTransparent\": false,\n" +
             "  \"locale\": \"en\"\n" +
             "}\n" +
             "  </script>\n" +
             "</div>\n" +
-            "<!-- TradingView Widget END -->";
-
-    private static final String FINANCIALS = "<!-- TradingView Widget BEGIN -->\n" +
+            "<!-- TradingView Widget END -->",
+//            ESP Estimate
+            "https://widget.finnhub.io/widgets/eps-estimate?symbol=%s",
+//            Financials
+            "<!-- TradingView Widget BEGIN -->\n" +
             "<div class=\"tradingview-widget-container\">\n" +
             "  <div class=\"tradingview-widget-container__widget\"></div>\n" +
             "  <div class=\"tradingview-widget-copyright\"><a href=\"https://www.tradingview.com/symbols/%s/\" rel=\"noopener\" target=\"_blank\"><span class=\"blue-text\">%s Fundamental Data</span></a> by TradingView</div>\n" +
@@ -67,33 +73,13 @@ public class WidgetRequests
             "}\n" +
             "  </script>\n" +
             "</div>\n" +
-            "<!-- TradingView Widget END -->";
+            "<!-- TradingView Widget END -->"
+    };
 
-    private static final String RECOMMENDATIONS = "https://widget.finnhub.io/widgets/recommendation?symbol=%s";
-    private static final String ESP_ESTIMATES = "https://widget.finnhub.io/widgets/eps-estimate?symbol=%s";
-
-    public static String getStockChart(String stock)
+    public static String getWidget(String symbol, int position)
     {
-        return String.format(STOCK_CHART, stock, stock, stock);
-    }
-
-    public static String getProfile(String stock)
-    {
-        return String.format(PROFILE, stock, stock, stock);
-    }
-
-    public static String getFinancials(String stock)
-    {
-        return String.format(FINANCIALS, stock, stock, stock);
-    }
-
-    public static String getRecommendations(String stock)
-    {
-        return String.format(RECOMMENDATIONS, stock);
-    }
-
-    public static String getEspEstimates(String stock)
-    {
-        return String.format(ESP_ESTIMATES, stock);
+        return position % 2 == 0
+                ? String.format(WIDGETS[position], symbol, symbol, symbol)
+                : String.format(WIDGETS[position], symbol);
     }
 }

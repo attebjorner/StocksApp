@@ -1,4 +1,4 @@
-package com.example.stapp.fragments;
+package com.example.stapp.view.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

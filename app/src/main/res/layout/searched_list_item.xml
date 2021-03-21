@@ -8,7 +8,6 @@
         android:id="@+id/tvSearched"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:text="Nvidia"
         android:textColor="@color/black"
         android:textAllCaps="false"
         android:textSize="12sp"
