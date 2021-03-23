@@ -25,7 +25,9 @@ import static com.example.stapp.api.SearchRequests.getSearchResults;
 
 public class SearchResultsFragment extends Fragment
 {
-    RecyclerView rvSearchResults;
+    private RecyclerView rvSearchResults;
+    private TinyDB tinyDB;
+    private StocksListAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -41,7 +43,7 @@ public class SearchResultsFragment extends Fragment
         SearchView svStocks = (SearchView) getActivity().findViewById(R.id.svStocks);
         svStocks.setBackgroundResource(R.drawable.search_rounded_focus);
 
-        TinyDB tinyDB = new TinyDB(getActivity());
+        tinyDB = new TinyDB(getActivity());
         try
         {
             StocksDaily temp = tinyDB.getObject("searchedStocks", StocksDaily.class);
@@ -72,6 +74,22 @@ public class SearchResultsFragment extends Fragment
         return rootView;
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        try
+        {
+            ArrayList<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
+            if (itemList.size() != 0)
+            {
+                adapter = new StocksListAdapter(itemList, getActivity());
+                rvSearchResults.setAdapter(adapter);
+                tinyDB.putListObject("clickedList", new ArrayList<>());
+            }
+        } catch (NullPointerException e) { e.printStackTrace(); }
+    }
+
     public void initRecyclerView(ArrayList<ListItem> responseList)
     {
         if (responseList.size() == 0) Toast.makeText(getActivity(), "No results", Toast.LENGTH_SHORT).show();
@@ -79,7 +97,7 @@ public class SearchResultsFragment extends Fragment
         {
             LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
             rvSearchResults.setLayoutManager(llManager);
-            StocksListAdapter adapter = new StocksListAdapter(responseList, getActivity());
+            adapter = new StocksListAdapter(responseList, getActivity());
             rvSearchResults.setAdapter(adapter);
         }
     }

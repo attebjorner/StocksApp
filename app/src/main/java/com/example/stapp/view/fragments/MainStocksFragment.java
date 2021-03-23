@@ -78,24 +78,17 @@ public class MainStocksFragment extends Fragment
     @Override
     public void onResume()
     {
-        System.out.println("HUI HUI HUI HUI HUI");
-//        TODO: update method in adapter?
+        super.onResume();
         try
         {
-//            ListItem item = new ListItem(tinyDB.getObject("clicked", ListItem.class));
-//            int position = tinyDB.getInt("clickedPos");
-//            item.setSymbol("hui");
-//            TODO:
-//            adapter.notifyItemChanged(position, item);
             ArrayList<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
             if (itemList.size() != 0)
             {
                 adapter = new StocksListAdapter(itemList, getActivity());
                 rvStocks.setAdapter(adapter);
+                tinyDB.putListObject("clickedList", new ArrayList<>());
             }
         } catch (NullPointerException e) { e.printStackTrace(); }
-
-        super.onResume();
     }
 
     public ArrayList<ListItem> getFavorites(StocksDaily stocks)

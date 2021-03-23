@@ -19,6 +19,9 @@ import java.util.ArrayList;
 
 public class FavoriteFragment extends Fragment
 {
+    private TinyDB tinyDB;
+    private RecyclerView rvFavorite;
+    private StocksListAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -30,9 +33,9 @@ public class FavoriteFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_favorite_stocks, container, false);
-        RecyclerView rvFavorite = (RecyclerView) rootView.findViewById(R.id.rvFavorite);
+        rvFavorite = (RecyclerView) rootView.findViewById(R.id.rvFavorite);
 
-        TinyDB tinyDB = new TinyDB(getActivity());
+        tinyDB = new TinyDB(getActivity());
 
         StocksDaily mainStocks = tinyDB.getObject("mainStocks", StocksDaily.class);
         ArrayList<ListItem> stocksList = mainStocks.getStocksItems();
@@ -62,9 +65,25 @@ public class FavoriteFragment extends Fragment
 
         LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
         rvFavorite.setLayoutManager(llManager);
-        StocksListAdapter adapter = new StocksListAdapter(favList, getActivity());
+        adapter = new StocksListAdapter(favList, getActivity());
         rvFavorite.setAdapter(adapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        try
+        {
+            ArrayList<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
+            if (itemList.size() != 0)
+            {
+                adapter = new StocksListAdapter(itemList, getActivity());
+                rvFavorite.setAdapter(adapter);
+                tinyDB.putListObject("clickedList", new ArrayList<>());
+            }
+        } catch (NullPointerException e) { e.printStackTrace(); }
     }
 }

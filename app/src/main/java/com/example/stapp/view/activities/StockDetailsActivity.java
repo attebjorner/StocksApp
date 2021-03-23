@@ -59,9 +59,6 @@ public class StockDetailsActivity extends AppCompatActivity
             ArrayList<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
             itemList.get(tinyDB.getInt("clickedPos")).changeFav();
             tinyDB.putListObject("clickedList", itemList);
-//            ListItem item = tinyDB.getObject("clicked", ListItem.class);
-//            item.setFavorite(!item.isFavorite());
-//            tinyDB.putObject("clicked", item);
         });
 
         TextView tvSymbol = (TextView) findViewById(R.id.tvSymbolDetail);
