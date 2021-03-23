@@ -68,6 +68,12 @@ public class ListItem
         isFavorite = favorite;
     }
 
+//    TODO: replace setFav to chanchefav
+    public void changeFav()
+    {
+        isFavorite = !isFavorite;
+    }
+
     public static double round(double value, int places)
     {
         if (places < 0) throw new IllegalArgumentException();

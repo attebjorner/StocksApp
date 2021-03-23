@@ -330,17 +330,30 @@ public class TinyDB {
     }
 
 
-    public ArrayList<Object> getListObject(String key, Class<?> mClass){
-    	Gson gson = new Gson();
+//    public ArrayList<Object> getListObject(String key, Class<?> mClass){
+//    	Gson gson = new Gson();
+//
+//    	ArrayList<String> objStrings = getListString(key);
+//    	ArrayList<Object> objects =  new ArrayList<Object>();
+//
+//    	for(String jObjString : objStrings){
+//    		Object value  = gson.fromJson(jObjString,  mClass);
+//    		objects.add(value);
+//    	}
+//    	return objects;
+//    }
 
-    	ArrayList<String> objStrings = getListString(key);
-    	ArrayList<Object> objects =  new ArrayList<Object>();
+    public <T> ArrayList<T> getListObject(String key, Class<T> mClass){
+        Gson gson = new Gson();
 
-    	for(String jObjString : objStrings){
-    		Object value  = gson.fromJson(jObjString,  mClass);
-    		objects.add(value);
-    	}
-    	return objects;
+        ArrayList<String> objStrings = getListString(key);
+        ArrayList<T> objects =  new ArrayList<>();
+
+        for(String jObjString : objStrings){
+            T value  = gson.fromJson(jObjString,  mClass);
+            objects.add(value);
+        }
+        return objects;
     }
     
 
@@ -492,14 +505,24 @@ public class TinyDB {
     	putString(key, gson.toJson(obj));
     }
 
-    public void putListObject(String key, ArrayList<Object> objArray){
-    	checkForNullKey(key);
-    	Gson gson = new Gson();
-    	ArrayList<String> objStrings = new ArrayList<String>();
-    	for(Object obj : objArray){
-    		objStrings.add(gson.toJson(obj));
-    	}
-    	putListString(key, objStrings);
+//    public void putListObject(String key, ArrayList<Object> objArray){
+//    	checkForNullKey(key);
+//    	Gson gson = new Gson();
+//    	ArrayList<String> objStrings = new ArrayList<String>();
+//    	for(Object obj : objArray){
+//    		objStrings.add(gson.toJson(obj));
+//    	}
+//    	putListString(key, objStrings);
+//    }
+
+    public <T> void putListObject(String key, ArrayList<T> objArray){
+        checkForNullKey(key);
+        Gson gson = new Gson();
+        ArrayList<String> objStrings = new ArrayList<String>();
+        for(T obj : objArray){
+            objStrings.add(gson.toJson(obj));
+        }
+        putListString(key, objStrings);
     }
     
     /**

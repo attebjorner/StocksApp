@@ -58,7 +58,7 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
         GradientDrawable drawable = (GradientDrawable) holder.itemView.getBackground();
         drawable.setColor(ITEM_COLORS[position % 2]);
         holder.itemView.setOnClickListener(new ListItemListener(
-                context, stocksList.get(position), position, tinyDB
+                context, stocksList, position, tinyDB
         ));
 
         holder.tvSymbol.setText(stocksList.get(position).getSymbol());
@@ -136,23 +136,24 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
         private final Context context;
         private final String[] stockInfo = new String[2];
         private final TinyDB tinyDB;
-        private final ListItem item;
+        private final ArrayList<ListItem> itemList;
         private final int position;
 
-        ListItemListener(Context context, ListItem item, int position, TinyDB tinyDB)
+        ListItemListener(Context context, ArrayList<ListItem> itemList, int position, TinyDB tinyDB)
         {
             this.context = context;
-            stockInfo[0] = item.getSymbol();
-            stockInfo[1] = item.getName();
+            stockInfo[0] = itemList.get(position).getSymbol();
+            stockInfo[1] = itemList.get(position).getName();
             this.tinyDB = tinyDB;
-            this.item = item;
+            this.itemList = itemList;
             this.position = position;
         }
 
         @Override
         public void onClick(View v)
         {
-            tinyDB.putObject("clicked", item);
+//            tinyDB.putObject("clicked", itemList.get(position));
+            tinyDB.putListObject("clickedList", itemList);
             tinyDB.putInt("clickedPos", position);
             Intent intent = new Intent(context, StockDetailsActivity.class);
             intent.putExtra("stockInfo", stockInfo);
