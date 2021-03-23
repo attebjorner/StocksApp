@@ -98,8 +98,9 @@ public class MainStocksFragment extends Fragment
         favorites = tinyDB.getListString("favorites");
         for (int i = 0; i < stocksList.size(); i++)
         {
-            if (favorites.contains(stocksList.get(i).getSymbol())) stocksList.get(i).setFavorite(true);
+            stocksList.get(i).setFavorite(favorites.contains(stocksList.get(i).getSymbol()));
         }
+        tinyDB.putObject("mainStocks", new StocksDaily(DateUtil.now(), stocksList));
         return stocksList;
     }
 

@@ -22,9 +22,9 @@ public class WidgetRequests
             "  \"height\": \"100%%\",\n" +
             "  \"locale\": \"en\",\n" +
             "  \"colorTheme\": \"light\",\n" +
-            "  \"gridLineColor\": \"#F0F3FA\",\n" +
+            "  \"gridLineColor\": \"%%23F0F3FA\",\n" +
             "  \"trendLineColor\": \"rgba(0, 0, 0, 1)\",\n" +
-            "  \"fontColor\": \"#787B86\",\n" +
+            "  \"fontColor\": \"%%23787B86\",\n" +
             "  \"underLineColor\": \"rgba(238, 238, 238, 1)\",\n" +
             "  \"isTransparent\": false,\n" +
             "  \"autosize\": true,\n" +
