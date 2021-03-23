@@ -12,16 +12,16 @@ import android.view.ViewGroup;
 
 import com.example.stapp.utils.DateUtil;
 import com.example.stapp.models.ListItem;
-import com.example.stapp.adapters.MainListAdapter;
+import com.example.stapp.adapters.StocksListAdapter;
 import com.example.stapp.R;
 import com.example.stapp.utils.TinyDB;
-import com.example.stapp.models.StocksDailyContainer;
+import com.example.stapp.models.StocksDaily;
 
 import java.util.ArrayList;
 
 import static com.example.stapp.mainActivityApi.InitStocksRequest.*;
 
-public class StocksFragment extends Fragment
+public class MainStocksFragment extends Fragment
 {
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -36,18 +36,18 @@ public class StocksFragment extends Fragment
         RecyclerView rvStocks = (RecyclerView) rootView.findViewById(R.id.rvStocks);
 
         TinyDB tinyDB = new TinyDB(getActivity());
-        StocksDailyContainer mainStocks;
+        StocksDaily mainStocks;
         try
         {
-            mainStocks = tinyDB.getObject("mainStocks", StocksDailyContainer.class);
+            mainStocks = tinyDB.getObject("mainStocks", StocksDaily.class);
             if (mainStocks.getStocksItems() == null) throw new NullPointerException();
         } catch (NullPointerException e)
         {
-            mainStocks = new StocksDailyContainer(DateUtil.now(), new ArrayList<>());
+            mainStocks = new StocksDaily(DateUtil.now(), new ArrayList<>());
         }
         if (!mainStocks.getDate().equals(DateUtil.now()) || mainStocks.getStocksItems().isEmpty())
         {
-            getMboumStocks(getActivity(), rootView);
+            mainStocks.setStocksItems(getInitStocks(getActivity(), rootView));
         }
         ArrayList<ListItem> stocksList = mainStocks.getStocksItems();
 
@@ -61,7 +61,7 @@ public class StocksFragment extends Fragment
 
         LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
         rvStocks.setLayoutManager(llManager);
-        MainListAdapter adapter = new MainListAdapter(stocksList, getActivity());
+        StocksListAdapter adapter = new StocksListAdapter(stocksList, getActivity());
         rvStocks.setAdapter(adapter);
 
         return rootView;

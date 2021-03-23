@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.stapp.utils.DateUtil;
 import com.example.stapp.R;
 import com.example.stapp.utils.TinyDB;
-import com.example.stapp.models.StocksDailyContainer;
+import com.example.stapp.models.StocksDaily;
 
 import static com.example.stapp.mainActivityApi.SearchResultsRequest.getSearchResults;
 
@@ -36,12 +36,12 @@ public class SearchResultsFragment extends Fragment
         TinyDB tinyDB = new TinyDB(getActivity());
         try
         {
-            StocksDailyContainer temp = tinyDB.getObject("searchedStocks", StocksDailyContainer.class);
+            StocksDaily temp = tinyDB.getObject("searchedStocks", StocksDaily.class);
             if (!temp.getDate().equals(DateUtil.now())) throw new Exception();
         } catch (Exception e)
         {
-            tinyDB.putObject("searchedStocks", new StocksDailyContainer(
-                    DateUtil.now(), tinyDB.getObject("mainStocks", StocksDailyContainer.class).getStocksItems()
+            tinyDB.putObject("searchedStocks", new StocksDaily(
+                    DateUtil.now(), tinyDB.getObject("mainStocks", StocksDaily.class).getStocksItems()
             ));
         }
 

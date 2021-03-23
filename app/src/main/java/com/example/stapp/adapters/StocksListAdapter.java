@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
-public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHolder>
+public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.ViewHolder>
 {
     private final ArrayList<ListItem> stocksList;
     private final TinyDB tinyDB;
@@ -33,7 +33,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
     private static final int[] STAR_COLORS = new int[]{0xFFBABABA, 0xFFFFCA1C}; //gray, yellow
     private static final String IMAGE_URL = "https://finnhub.io/api/logo?symbol=";
 
-    public MainListAdapter(ArrayList<ListItem> stocksList, Context context)
+    public StocksListAdapter(ArrayList<ListItem> stocksList, Context context)
     {
         this.stocksList = stocksList;
         this.context = context;

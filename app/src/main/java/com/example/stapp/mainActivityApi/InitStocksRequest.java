@@ -13,8 +13,8 @@ import com.example.stapp.utils.DateUtil;
 import com.example.stapp.models.ListItem;
 import com.example.stapp.R;
 import com.example.stapp.utils.TinyDB;
-import com.example.stapp.adapters.MainListAdapter;
-import com.example.stapp.models.StocksDailyContainer;
+import com.example.stapp.adapters.StocksListAdapter;
+import com.example.stapp.models.StocksDaily;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class InitStocksRequest
 {
-    public static void getMboumStocks(Context context, View rootView)
+    public static ArrayList<ListItem> getInitStocks(Context context, View rootView)
     {
         ArrayList<ListItem> stocksResponseItems = new ArrayList<>();
         String REQUEST_URL = "https://mboum.com/api/v1/co/collections/?list=most_actives&start=1&" +
@@ -62,15 +62,16 @@ public class InitStocksRequest
                         }
                     }
 
-                    tinyDB.putObject("mainStocks", new StocksDailyContainer(DateUtil.now(), stocksResponseItems));
+                    tinyDB.putObject("mainStocks", new StocksDaily(DateUtil.now(), stocksResponseItems));
 
-                    RecyclerView rvStocks = (RecyclerView) rootView.findViewById(R.id.rvStocks);
-                    LinearLayoutManager llManager = new LinearLayoutManager(context);
-                    rvStocks.setLayoutManager(llManager);
-                    MainListAdapter adapter = new MainListAdapter(stocksResponseItems, context);
-                    rvStocks.setAdapter(adapter);
+//                    RecyclerView rvStocks = (RecyclerView) rootView.findViewById(R.id.rvStocks);
+//                    LinearLayoutManager llManager = new LinearLayoutManager(context);
+//                    rvStocks.setLayoutManager(llManager);
+//                    StocksListAdapter adapter = new StocksListAdapter(stocksResponseItems, context);
+//                    rvStocks.setAdapter(adapter);
                 }, error -> Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show()
         );
         InitStocksSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        return stocksResponseItems;
     }
 }

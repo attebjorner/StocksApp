@@ -5,10 +5,10 @@ import com.example.stapp.models.ListItem;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class StocksDailyContainer
+public class StocksDaily
 {
     private String date;
-    private final ArrayList<ListItem> stocksItems;
+    private ArrayList<ListItem> stocksItems;
     private final ArrayList<String> stocksItemsSymbols = new ArrayList<>();
 
 //    public StocksDailyContainer(LocalDate date, ArrayList<ListItem> stocksItems)
@@ -18,7 +18,7 @@ public class StocksDailyContainer
 //        for (ListItem item : stocksItems) stocksItemsSymbols.add(item.getSymbol());
 //    }
 
-    public StocksDailyContainer(String date, ArrayList<ListItem> stocksItems)
+    public StocksDaily(String date, ArrayList<ListItem> stocksItems)
     {
         this.date = date;
         this.stocksItems = stocksItems;
@@ -38,6 +38,12 @@ public class StocksDailyContainer
     public ArrayList<ListItem> getStocksItems()
     {
         return stocksItems;
+    }
+
+    public void setStocksItems(ArrayList<ListItem> stocksItems)
+    {
+        this.stocksItems = stocksItems;
+        for (ListItem item : stocksItems) stocksItemsSymbols.add(item.getSymbol());
     }
 
     public ArrayList<String> getStocksItemsSymbols()

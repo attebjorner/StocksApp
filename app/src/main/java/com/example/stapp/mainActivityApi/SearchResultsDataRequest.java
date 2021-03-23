@@ -12,8 +12,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.stapp.models.ListItem;
 import com.example.stapp.R;
 import com.example.stapp.utils.TinyDB;
-import com.example.stapp.adapters.MainListAdapter;
-import com.example.stapp.models.StocksDailyContainer;
+import com.example.stapp.adapters.StocksListAdapter;
+import com.example.stapp.models.StocksDaily;
 
 import org.json.JSONObject;
 
@@ -31,7 +31,7 @@ public class SearchResultsDataRequest
         queryResults = manageExistingStocks(searchResponseItems, queryResults, tinyDB);
         String LOOKUP_DATA_REQUEST = "https://api.twelvedata.com/quote?symbol=" + queryResults
                 + "&apikey=ba5fd509861a483ebba2d3cebda53e84";
-        StocksDailyContainer searchedStocksContainer = tinyDB.getObject("searchedStocks", StocksDailyContainer.class);
+        StocksDaily searchedStocksContainer = tinyDB.getObject("searchedStocks", StocksDaily.class);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, LOOKUP_DATA_REQUEST, null, response ->
@@ -73,11 +73,11 @@ public class SearchResultsDataRequest
         RecyclerView rvSearchResults = (RecyclerView) rootView.findViewById(R.id.rvSearchResults);
         LinearLayoutManager llManager = new LinearLayoutManager(context);
         rvSearchResults.setLayoutManager(llManager);
-        MainListAdapter adapter = new MainListAdapter(searchResponseItems, context);
+        StocksListAdapter adapter = new StocksListAdapter(searchResponseItems, context);
         rvSearchResults.setAdapter(adapter);
     }
 
-    public static void addExistingStocks(StocksDailyContainer container,
+    public static void addExistingStocks(StocksDaily container,
                                          ArrayList<ListItem> stocksList, String symbol, TinyDB tinyDB)
     {
         ArrayList<String> favorites = tinyDB.getListString("favorites");
@@ -88,7 +88,7 @@ public class SearchResultsDataRequest
 
     public static String manageExistingStocks(ArrayList<ListItem> responseItems, String query, TinyDB tinyDB)
     {
-        StocksDailyContainer searchedStocksContainer = tinyDB.getObject("searchedStocks", StocksDailyContainer.class);
+        StocksDaily searchedStocksContainer = tinyDB.getObject("searchedStocks", StocksDaily.class);
         ArrayList<String> queryArray = new ArrayList<>(Arrays.asList(query.split(",")));
         for (int i = queryArray.size()-1; i>-1; i--)
         {

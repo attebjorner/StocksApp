@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stapp.models.ListItem;
-import com.example.stapp.adapters.MainListAdapter;
+import com.example.stapp.adapters.StocksListAdapter;
 import com.example.stapp.R;
 import com.example.stapp.utils.TinyDB;
-import com.example.stapp.models.StocksDailyContainer;
+import com.example.stapp.models.StocksDaily;
 
 import java.util.ArrayList;
 
-public class FavoriteStocksFragment extends Fragment
+public class FavoriteFragment extends Fragment
 {
 
     @Override
@@ -34,7 +34,7 @@ public class FavoriteStocksFragment extends Fragment
 
         TinyDB tinyDB = new TinyDB(getActivity());
 
-        StocksDailyContainer mainStocks = tinyDB.getObject("mainStocks", StocksDailyContainer.class);
+        StocksDaily mainStocks = tinyDB.getObject("mainStocks", StocksDaily.class);
         ArrayList<ListItem> stocksList = mainStocks.getStocksItems();
 
         ArrayList<String> favorites = tinyDB.getListString("favorites");
@@ -47,7 +47,7 @@ public class FavoriteStocksFragment extends Fragment
         for (ListItem item : stocksList) if (item.isFavorite()) favList.add(item);
         try
         {
-            StocksDailyContainer searchedStocksContainer = tinyDB.getObject("searchedStocks", StocksDailyContainer.class);
+            StocksDaily searchedStocksContainer = tinyDB.getObject("searchedStocks", StocksDaily.class);
             ArrayList<ListItem> searchedStocks = searchedStocksContainer.getStocksItems();
             for (ListItem item : searchedStocks)
             {
@@ -62,7 +62,7 @@ public class FavoriteStocksFragment extends Fragment
 
         LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
         rvFavorite.setLayoutManager(llManager);
-        MainListAdapter adapter = new MainListAdapter(favList, getActivity());
+        StocksListAdapter adapter = new StocksListAdapter(favList, getActivity());
         rvFavorite.setAdapter(adapter);
 
         return rootView;

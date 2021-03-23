@@ -17,10 +17,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.stapp.R;
 import com.example.stapp.utils.TinyDB;
-import com.example.stapp.view.fragments.FavoriteStocksFragment;
+import com.example.stapp.view.fragments.FavoriteFragment;
 import com.example.stapp.view.fragments.SearchHistoryFragment;
 import com.example.stapp.view.fragments.SearchResultsFragment;
-import com.example.stapp.view.fragments.StocksFragment;
+import com.example.stapp.view.fragments.MainStocksFragment;
 
 import java.util.ArrayList;
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
         lastActiveMenuBtn = btnStocks;
         try
         {
-            doFragmentTransaction(StocksFragment.class);
+            doFragmentTransaction(MainStocksFragment.class);
         } catch (InstantiationException | IllegalAccessException e) { e.printStackTrace(); }
 
         llMenuButtons = (LinearLayout) findViewById(R.id.llMenuButtons);
@@ -130,13 +130,13 @@ public class MainActivity extends AppCompatActivity
     public void onClickStocks(View view) throws IllegalAccessException, InstantiationException
     {
         setActiveButtonStyle(btnStocks, btnFavorite);
-        doFragmentTransaction(StocksFragment.class);
+        doFragmentTransaction(MainStocksFragment.class);
     }
 
     public void onClickFavorite(View view) throws IllegalAccessException, InstantiationException
     {
         setActiveButtonStyle(btnFavorite, btnStocks);
-        doFragmentTransaction(FavoriteStocksFragment.class);
+        doFragmentTransaction(FavoriteFragment.class);
     }
 
     public void doFragmentTransaction(Class<? extends Fragment> fragmentClass)
