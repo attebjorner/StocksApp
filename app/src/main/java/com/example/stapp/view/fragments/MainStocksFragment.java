@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.stapp.utils.DateUtil;
 import com.example.stapp.models.ListItem;
@@ -19,10 +20,14 @@ import com.example.stapp.models.StocksDaily;
 
 import java.util.ArrayList;
 
-import static com.example.stapp.mainActivityApi.InitStocksRequest.*;
+import static com.example.stapp.api.InitStocksRequest.*;
 
 public class MainStocksFragment extends Fragment
 {
+    RecyclerView rvStocks;
+    TinyDB tinyDB;
+    StocksDaily mainStocks;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -33,10 +38,9 @@ public class MainStocksFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_stocks, container, false);
-        RecyclerView rvStocks = (RecyclerView) rootView.findViewById(R.id.rvStocks);
+        rvStocks = (RecyclerView) rootView.findViewById(R.id.rvStocks);
 
-        TinyDB tinyDB = new TinyDB(getActivity());
-        StocksDaily mainStocks;
+        tinyDB = new TinyDB(getActivity());
         try
         {
             mainStocks = tinyDB.getObject("mainStocks", StocksDaily.class);
@@ -47,31 +51,53 @@ public class MainStocksFragment extends Fragment
         }
         if (!mainStocks.getDate().equals(DateUtil.now()) || mainStocks.getStocksItems().isEmpty())
         {
-            mainStocks.setStocksItems(getInitStocks(getActivity(), rootView));
-        }
-        ArrayList<ListItem> stocksList = mainStocks.getStocksItems();
+            StocksDaily finalMainStocks = mainStocks;
+            getInitStocks(getActivity(), new InitStocksResponseListener()
+            {
+                @Override
+                public void onError(String message)
+                {
+                    Toast.makeText(getActivity(), "Error3 occurred", Toast.LENGTH_SHORT).show();
+                }
 
+                @Override
+                public void onResponse(ArrayList<ListItem> stocksResponseItems)
+                {
+                    finalMainStocks.setStocksItems(stocksResponseItems);
+                    initRecyclerView(finalMainStocks);
+                }
+            });
+        }
+
+        initRecyclerView(mainStocks);
+        return rootView;
+    }
+
+//    @Override
+//    public void onResume()
+//    {
+//        System.out.println("HUI HUI HUI HUI HUI");
+////        TODO: update method in adapter?
+//        super.onResume();
+//    }
+
+    public ArrayList<ListItem> getFavorites(StocksDaily stocks)
+    {
+        ArrayList<ListItem> stocksList = stocks.getStocksItems();
         ArrayList<String> favorites;
         favorites = tinyDB.getListString("favorites");
-
         for (int i = 0; i < stocksList.size(); i++)
         {
             if (favorites.contains(stocksList.get(i).getSymbol())) stocksList.get(i).setFavorite(true);
         }
-
-        LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
-        rvStocks.setLayoutManager(llManager);
-        StocksListAdapter adapter = new StocksListAdapter(stocksList, getActivity());
-        rvStocks.setAdapter(adapter);
-
-        return rootView;
+        return stocksList;
     }
 
-    @Override
-    public void onResume()
+    public void initRecyclerView(StocksDaily stocks)
     {
-        System.out.println("HUI HUI HUI HUI HUI");
-//        TODO: update method in adapter?
-        super.onResume();
+        LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
+        rvStocks.setLayoutManager(llManager);
+        StocksListAdapter adapter = new StocksListAdapter(getFavorites(stocks), getActivity());
+        rvStocks.setAdapter(adapter);
     }
 }

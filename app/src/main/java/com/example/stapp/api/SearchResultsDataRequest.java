@@ -1,4 +1,4 @@
-package com.example.stapp.mainActivityApi;
+package com.example.stapp.api;
 
 import android.content.Context;
 import android.view.View;

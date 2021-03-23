@@ -1,4 +1,4 @@
-package com.example.stapp.mainActivityApi;
+package com.example.stapp.api;
 
 import android.content.Context;
 import android.view.View;
@@ -12,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.example.stapp.mainActivityApi.SearchResultsDataRequest.getSearchResultsData;
+import static com.example.stapp.api.SearchResultsDataRequest.getSearchResultsData;
 
 public class SearchResultsRequest
 {

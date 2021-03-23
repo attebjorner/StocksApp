@@ -14,7 +14,7 @@ import com.example.stapp.R;
 import com.example.stapp.utils.TinyDB;
 import com.example.stapp.models.StocksDaily;
 
-import static com.example.stapp.mainActivityApi.SearchResultsRequest.getSearchResults;
+import static com.example.stapp.api.SearchResultsRequest.getSearchResults;
 
 public class SearchResultsFragment extends Fragment
 {
