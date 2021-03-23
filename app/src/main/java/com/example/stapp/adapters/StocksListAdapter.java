@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,7 +48,6 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.list_item, parent, false
         );
-//        view.setOnClickListener(new ListItemListener(context));
         return new ViewHolder(view);
     }
 
@@ -58,13 +58,10 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
         GradientDrawable drawable = (GradientDrawable) holder.itemView.getBackground();
         drawable.setColor(ITEM_COLORS[position % 2]);
         holder.itemView.setOnClickListener(new ListItemListener(
-                context,
-                stocksList.get(position).getSymbol(),
-                stocksList.get(position).getName()
+                context, stocksList.get(position), position, tinyDB
         ));
 
         holder.tvSymbol.setText(stocksList.get(position).getSymbol());
-        //TODO: text overflow ellipsis
         holder.tvName.setText(stocksList.get(position).getName());
         holder.tvPrice.setText(stocksList.get(position).getPrice());
         holder.tvChange.setText(stocksList.get(position).getChange());
@@ -138,17 +135,25 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
     {
         private final Context context;
         private final String[] stockInfo = new String[2];
+        private final TinyDB tinyDB;
+        private final ListItem item;
+        private final int position;
 
-        ListItemListener(Context context, String symbol, String name)
+        ListItemListener(Context context, ListItem item, int position, TinyDB tinyDB)
         {
             this.context = context;
-            stockInfo[0] = symbol;
-            stockInfo[1] = name;
+            stockInfo[0] = item.getSymbol();
+            stockInfo[1] = item.getName();
+            this.tinyDB = tinyDB;
+            this.item = item;
+            this.position = position;
         }
 
         @Override
         public void onClick(View v)
         {
+            tinyDB.putObject("clicked", item);
+            tinyDB.putInt("clickedPos", position);
             Intent intent = new Intent(context, StockDetailsActivity.class);
             intent.putExtra("stockInfo", stockInfo);
             context.startActivity(intent);

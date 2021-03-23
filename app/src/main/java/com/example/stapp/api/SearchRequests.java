@@ -31,7 +31,6 @@ public class SearchRequests
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, LOOKUP_REQUEST, null, response ->
         {
-            System.out.println("SEARCH RESULTS API REQUEST");
             try
             {
                 JSONArray quotesArray = (JSONArray) response.get("result");
@@ -71,7 +70,6 @@ public class SearchRequests
                 Request.Method.GET, LOOKUP_DATA_REQUEST, null, response ->
         {
             ArrayList<String> favorites = tinyDB.getListString("favorites");
-            System.out.println("SEARCH RESULTS DATA API REQUEST");
             Iterator<String> keys = response.keys();
             while(keys.hasNext())
             {

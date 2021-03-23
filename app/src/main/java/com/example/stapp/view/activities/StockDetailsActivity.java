@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.stapp.R;
+import com.example.stapp.models.ListItem;
 import com.example.stapp.utils.TinyDB;
 import com.example.stapp.utils.WidgetRequests;
 import com.example.stapp.adapters.DetailsMenuAdapter;
@@ -55,6 +56,9 @@ public class StockDetailsActivity extends AppCompatActivity
             if (favorites.contains(stockInfo[0])) favorites.remove(stockInfo[0]);
             else favorites.add(stockInfo[0]);
             tinyDB.putListString("favorites", favorites);
+            ListItem item = tinyDB.getObject("clicked", ListItem.class);
+            item.setFavorite(!item.isFavorite());
+            tinyDB.putObject("clicked", item);
         });
 
         TextView tvSymbol = (TextView) findViewById(R.id.tvSymbolDetail);

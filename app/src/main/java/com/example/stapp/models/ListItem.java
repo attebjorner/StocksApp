@@ -5,7 +5,8 @@ import java.math.RoundingMode;
 
 public class ListItem
 {
-    private final String symbol;
+//    private final String symbol;
+    private String symbol;
     private final String name;
     private final String price;
     private final String change;
@@ -23,12 +24,18 @@ public class ListItem
         this.isFavorite = false;
     }
 
-    public ListItem(String symbol, String name, int c, int pc)
+    public ListItem(ListItem item)
     {
-        this(
-                symbol, name, String.valueOf(c),
-                String.valueOf(c - pc), String.valueOf(((c - pc) * 100) / pc)
-        );
+        this.symbol = item.getSymbol();
+        this.name = item.getName();
+        this.price = item.getPrice();
+        this.change = this.getChange();
+        this.isFavorite = this.isFavorite();
+    }
+
+    public void setSymbol(String s)
+    {
+        this.symbol = s;
     }
 
     public String getSymbol()

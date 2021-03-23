@@ -25,9 +25,9 @@ import static com.example.stapp.api.InitRequest.getInitStocks;
 
 public class MainStocksFragment extends Fragment
 {
-    RecyclerView rvStocks;
-    TinyDB tinyDB;
-    StocksDaily mainStocks;
+    private RecyclerView rvStocks;
+    private TinyDB tinyDB;
+    private StocksListAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -42,6 +42,7 @@ public class MainStocksFragment extends Fragment
         rvStocks = (RecyclerView) rootView.findViewById(R.id.rvStocks);
 
         tinyDB = new TinyDB(getActivity());
+        StocksDaily mainStocks;
         try
         {
             mainStocks = tinyDB.getObject("mainStocks", StocksDaily.class);
@@ -74,13 +75,22 @@ public class MainStocksFragment extends Fragment
         return rootView;
     }
 
-//    @Override
-//    public void onResume()
-//    {
-//        System.out.println("HUI HUI HUI HUI HUI");
-////        TODO: update method in adapter?
-//        super.onResume();
-//    }
+    @Override
+    public void onResume()
+    {
+        System.out.println("HUI HUI HUI HUI HUI");
+//        TODO: update method in adapter?
+        try
+        {
+            ListItem item = new ListItem(tinyDB.getObject("clicked", ListItem.class));
+            int position = tinyDB.getInt("clickedPos");
+            item.setSymbol("hui");
+//            TODO:
+            adapter.notifyItemChanged(position, item);
+        } catch (NullPointerException e) { e.printStackTrace(); }
+
+        super.onResume();
+    }
 
     public ArrayList<ListItem> getFavorites(StocksDaily stocks)
     {
@@ -98,7 +108,7 @@ public class MainStocksFragment extends Fragment
     {
         LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
         rvStocks.setLayoutManager(llManager);
-        StocksListAdapter adapter = new StocksListAdapter(getFavorites(stocks), getActivity());
+        adapter = new StocksListAdapter(getFavorites(stocks), getActivity());
         rvStocks.setAdapter(adapter);
     }
 }
