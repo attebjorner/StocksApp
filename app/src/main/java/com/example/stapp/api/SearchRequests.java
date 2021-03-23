@@ -4,26 +4,60 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.stapp.models.ListItem;
-import com.example.stapp.R;
-import com.example.stapp.utils.TinyDB;
-import com.example.stapp.adapters.StocksListAdapter;
 import com.example.stapp.models.StocksDaily;
+import com.example.stapp.utils.TinyDB;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class SearchResultsDataRequest
+public class SearchRequests
 {
-    public static void getSearchResultsData(Context context, View rootView, String queryResults)
+    public static void getSearchResults(Context context, String searchQuery,
+                                        ResponseListener responseListener)
+    {
+        final StringBuffer[] queryResults = {new StringBuffer()};
+        String LOOKUP_REQUEST = "https://finnhub.io/api/v1/search?q=" + searchQuery
+                + "&token=c18e4dn48v6oak5h46ug";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, LOOKUP_REQUEST, null, response ->
+        {
+            System.out.println("SEARCH RESULTS API REQUEST");
+            try
+            {
+                JSONArray quotesArray = (JSONArray) response.get("result");
+                for (int i = 0; i < quotesArray.length(); i++)
+                {
+                    JSONObject temp = quotesArray.getJSONObject(i);
+                    queryResults[0].append(temp.get("symbol").toString());
+                    if (i != quotesArray.length() - 1) queryResults[0].append(",");
+                }
+            } catch (JSONException e) { e.printStackTrace(); }
+
+            //get comma-separated string query results and then search for them
+            getSearchResultsData(context, queryResults[0].toString(), responseListener);
+
+        }, error -> responseListener.onError("Error occurred")
+        );
+//        because finnhub works very slow sometimes
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+        RequestsSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public static void getSearchResultsData(Context context, String queryResults,
+                                            ResponseListener responseListener)
     {
         TinyDB tinyDB = new TinyDB(context);
         ArrayList<ListItem> searchResponseItems = new ArrayList<>();
@@ -57,28 +91,19 @@ public class SearchResultsDataRequest
                 } catch (Exception e) { e.printStackTrace(); }
             }
             tinyDB.putObject("searchedStocks", searchedStocksContainer);
-            displaySearchResults(searchResponseItems, context, rootView);
-        }, error -> Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show()
+//            TODO:
+            responseListener.onResponse(searchResponseItems);
+        }, error -> responseListener.onError("Error occurred")
         );
+
         if (queryResults.length() != 0)
         {
-            SearchResultsDataSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
-        } else displaySearchResults(searchResponseItems, context, rootView);
+            RequestsSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        } else responseListener.onResponse(searchResponseItems);
     }
 
-    public static void displaySearchResults(ArrayList<ListItem> searchResponseItems,
-                                            Context context, View rootView)
-    {
-        if (searchResponseItems.isEmpty()) Toast.makeText(context, "No results", Toast.LENGTH_SHORT).show();
-        RecyclerView rvSearchResults = (RecyclerView) rootView.findViewById(R.id.rvSearchResults);
-        LinearLayoutManager llManager = new LinearLayoutManager(context);
-        rvSearchResults.setLayoutManager(llManager);
-        StocksListAdapter adapter = new StocksListAdapter(searchResponseItems, context);
-        rvSearchResults.setAdapter(adapter);
-    }
-
-    public static void addExistingStocks(StocksDaily container,
-                                         ArrayList<ListItem> stocksList, String symbol, TinyDB tinyDB)
+    public static void addExistingStocks(StocksDaily container, ArrayList<ListItem> stocksList,
+                                         String symbol, TinyDB tinyDB)
     {
         ArrayList<String> favorites = tinyDB.getListString("favorites");
         int id = container.getStocksItemsSymbols().indexOf(symbol);
@@ -86,7 +111,8 @@ public class SearchResultsDataRequest
         if (favorites.contains(symbol)) stocksList.get(stocksList.size()-1).setFavorite(true);
     }
 
-    public static String manageExistingStocks(ArrayList<ListItem> responseItems, String query, TinyDB tinyDB)
+    public static String manageExistingStocks(ArrayList<ListItem> responseItems,
+                                              String query, TinyDB tinyDB)
     {
         StocksDaily searchedStocksContainer = tinyDB.getObject("searchedStocks", StocksDaily.class);
         ArrayList<String> queryArray = new ArrayList<>(Arrays.asList(query.split(",")));

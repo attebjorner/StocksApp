@@ -5,19 +5,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stapp.adapters.StocksListAdapter;
+import com.example.stapp.api.ResponseListener;
+import com.example.stapp.models.ListItem;
 import com.example.stapp.utils.DateUtil;
 import com.example.stapp.R;
 import com.example.stapp.utils.TinyDB;
 import com.example.stapp.models.StocksDaily;
 
-import static com.example.stapp.api.SearchResultsRequest.getSearchResults;
+import java.util.ArrayList;
+
+import static com.example.stapp.api.SearchRequests.getSearchResults;
 
 public class SearchResultsFragment extends Fragment
 {
+    RecyclerView rvSearchResults;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -28,11 +37,10 @@ public class SearchResultsFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_search_results, container, false);
-        RecyclerView rvSearchResults = (RecyclerView) rootView.findViewById(R.id.rvSearchResults);
+        rvSearchResults = (RecyclerView) rootView.findViewById(R.id.rvSearchResults);
         SearchView svStocks = (SearchView) getActivity().findViewById(R.id.svStocks);
         svStocks.setBackgroundResource(R.drawable.search_rounded_focus);
 
-        //create it here so that in api it will already exists
         TinyDB tinyDB = new TinyDB(getActivity());
         try
         {
@@ -46,16 +54,33 @@ public class SearchResultsFragment extends Fragment
         }
 
         String searchQuery = svStocks.getQuery().toString();
-        getSearchResults(getActivity(), rootView, searchQuery);
+        getSearchResults(getActivity(), searchQuery, new ResponseListener()
+        {
+            @Override
+            public void onResponse(ArrayList<ListItem> stocksResponseItems)
+            {
+                initRecyclerView(stocksResponseItems);
+            }
 
-//        TODO: result list from finhub, symb lookup -> symb and name, (or name from twelve?)
-//        quote -> cur price (c), change = c - pc, percChange = ((c - pc)*100)/ pc
-
-//        LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
-//        rvSearchResults.setLayoutManager(llManager);
-//        MainListAdapter adapter = new MainListAdapter(new ArrayList<>(), getActivity());
-//        rvSearchResults.setAdapter(adapter);
+            @Override
+            public void onError(String message)
+            {
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return rootView;
+    }
+
+    public void initRecyclerView(ArrayList<ListItem> responseList)
+    {
+        if (responseList.size() == 0) Toast.makeText(getActivity(), "No results", Toast.LENGTH_SHORT).show();
+        else
+        {
+            LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
+            rvSearchResults.setLayoutManager(llManager);
+            StocksListAdapter adapter = new StocksListAdapter(responseList, getActivity());
+            rvSearchResults.setAdapter(adapter);
+        }
     }
 }

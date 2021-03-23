@@ -4,10 +4,10 @@ import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.stapp.utils.DateUtil;
 import com.example.stapp.models.ListItem;
-import com.example.stapp.utils.TinyDB;
 import com.example.stapp.models.StocksDaily;
+import com.example.stapp.utils.DateUtil;
+import com.example.stapp.utils.TinyDB;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,16 +15,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class InitStocksRequest
+public class InitRequest
 {
-    public interface InitStocksResponseListener
-    {
-        void onError(String message);
-
-        void onResponse(ArrayList<ListItem> stocksResponseItems);
-    }
-
-    public static void getInitStocks(Context context, InitStocksResponseListener responseListener)
+    public static void getInitStocks(Context context, ResponseListener responseListener)
     {
         ArrayList<ListItem> stocksResponseItems = new ArrayList<>();
         String REQUEST_URL = "https://mboum.com/api/v1/co/collections/?list=most_actives&start=1&" +
@@ -62,7 +55,7 @@ public class InitStocksRequest
             tinyDB.putObject("mainStocks", new StocksDaily(DateUtil.now(), stocksResponseItems));
 
             responseListener.onResponse(stocksResponseItems);
-        }, error -> responseListener.onError("Error2 occured"));
-        InitStocksSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+        }, error -> responseListener.onError("Error occurred"));
+        RequestsSingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 }

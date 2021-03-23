@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.stapp.api.ResponseListener;
 import com.example.stapp.utils.DateUtil;
 import com.example.stapp.models.ListItem;
 import com.example.stapp.adapters.StocksListAdapter;
@@ -20,7 +21,7 @@ import com.example.stapp.models.StocksDaily;
 
 import java.util.ArrayList;
 
-import static com.example.stapp.api.InitStocksRequest.*;
+import static com.example.stapp.api.InitRequest.getInitStocks;
 
 public class MainStocksFragment extends Fragment
 {
@@ -52,19 +53,19 @@ public class MainStocksFragment extends Fragment
         if (!mainStocks.getDate().equals(DateUtil.now()) || mainStocks.getStocksItems().isEmpty())
         {
             StocksDaily finalMainStocks = mainStocks;
-            getInitStocks(getActivity(), new InitStocksResponseListener()
+            getInitStocks(getActivity(), new ResponseListener()
             {
-                @Override
-                public void onError(String message)
-                {
-                    Toast.makeText(getActivity(), "Error3 occurred", Toast.LENGTH_SHORT).show();
-                }
-
                 @Override
                 public void onResponse(ArrayList<ListItem> stocksResponseItems)
                 {
                     finalMainStocks.setStocksItems(stocksResponseItems);
                     initRecyclerView(finalMainStocks);
+                }
+
+                @Override
+                public void onError(String message)
+                {
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
                 }
             });
         }
