@@ -20,6 +20,7 @@ import com.example.stapp.R;
 import com.example.stapp.utils.TinyDB;
 import com.squareup.picasso.Picasso;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
@@ -27,8 +28,8 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.ViewHolder>
 {
     private static ArrayList<ListItem> stocksList = new ArrayList<>();
-    private final TinyDB tinyDB;
-    private final Context context;
+    private static TinyDB tinyDB;
+    private static WeakReference<Context> context;
     private static final int[] ITEM_COLORS = new int[]{0xFFF0F4F7, 0xFFFFFFFF};
     private static final int[] CHANGE_COLORS = new int[]{0xFF24B25D, 0xFFB22424}; //green, red
     private static final int[] STAR_COLORS = new int[]{0xFFBABABA, 0xFFFFCA1C}; //gray, yellow
@@ -37,7 +38,7 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
     public StocksListAdapter(ArrayList<ListItem> stocksList, Context context)
     {
         StocksListAdapter.stocksList = stocksList;
-        this.context = context;
+        StocksListAdapter.context = new WeakReference<>(context);
         tinyDB = new TinyDB(context);
     }
 
@@ -57,9 +58,7 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
         holder.itemView.setBackgroundResource(R.drawable.stocks_list_item_shape);
         GradientDrawable drawable = (GradientDrawable) holder.itemView.getBackground();
         drawable.setColor(ITEM_COLORS[position % 2]);
-        holder.itemView.setOnClickListener(new ListItemListener(
-                context, position, tinyDB
-        ));
+        holder.itemView.setOnClickListener(new ListItemListener(position));
 
         holder.tvSymbol.setText(stocksList.get(position).getSymbol());
         holder.tvName.setText(stocksList.get(position).getName());
@@ -77,7 +76,7 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
                 stocksList.get(position).isFavorite() ? STAR_COLORS[1] : STAR_COLORS[0]
         );
         holder.imbFavorite.setOnClickListener(
-                new IsFavoriteListener(stocksList.get(position), holder.imbFavorite, tinyDB)
+                new IsFavoriteListener(stocksList.get(position), holder.imbFavorite)
         );
     }
 
@@ -110,13 +109,11 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
     {
         private final ListItem item;
         private final ImageButton imbFavorite;
-        private final TinyDB tinyDB;
 
-        public IsFavoriteListener(ListItem item, ImageButton imbFavorite, TinyDB tinyDB)
+        public IsFavoriteListener(ListItem item, ImageButton imbFavorite)
         {
             this.item = item;
             this.imbFavorite = imbFavorite;
-            this.tinyDB = tinyDB;
         }
 
         @Override
@@ -133,18 +130,14 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
 
     public static class ListItemListener implements View.OnClickListener
     {
-        private final Context context;
         private final String[] stockInfo = new String[2];
-        private final TinyDB tinyDB;
         private final int position;
 
-        ListItemListener(Context context, int position, TinyDB tinyDB)
+        ListItemListener(int position)
         {
-            this.context = context;
             stockInfo[0] = stocksList.get(position).getSymbol();
             stockInfo[1] = stocksList.get(position).getName();
             this.position = position;
-            this.tinyDB = tinyDB;
         }
 
         @Override
@@ -152,9 +145,9 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
         {
             tinyDB.putListObject("clickedList", stocksList);
             tinyDB.putInt("clickedPos", position);
-            Intent intent = new Intent(context, StockDetailsActivity.class);
+            Intent intent = new Intent(context.get(), StockDetailsActivity.class);
             intent.putExtra("stockInfo", stockInfo);
-            context.startActivity(intent);
+            context.get().startActivity(intent);
         }
     }
 }
