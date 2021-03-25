@@ -26,7 +26,7 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.ViewHolder>
 {
-    private final ArrayList<ListItem> stocksList;
+    private static ArrayList<ListItem> stocksList = new ArrayList<>();
     private final TinyDB tinyDB;
     private final Context context;
     private static final int[] ITEM_COLORS = new int[]{0xFFF0F4F7, 0xFFFFFFFF};
@@ -36,7 +36,7 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
 
     public StocksListAdapter(ArrayList<ListItem> stocksList, Context context)
     {
-        this.stocksList = stocksList;
+        StocksListAdapter.stocksList = stocksList;
         this.context = context;
         tinyDB = new TinyDB(context);
     }
@@ -58,7 +58,7 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
         GradientDrawable drawable = (GradientDrawable) holder.itemView.getBackground();
         drawable.setColor(ITEM_COLORS[position % 2]);
         holder.itemView.setOnClickListener(new ListItemListener(
-                context, stocksList, position, tinyDB
+                context, position, tinyDB
         ));
 
         holder.tvSymbol.setText(stocksList.get(position).getSymbol());
@@ -136,21 +136,19 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
         private final Context context;
         private final String[] stockInfo = new String[2];
         private final TinyDB tinyDB;
-        private final ArrayList<ListItem> itemList;
 
-        ListItemListener(Context context, ArrayList<ListItem> itemList, int position, TinyDB tinyDB)
+        ListItemListener(Context context, int position, TinyDB tinyDB)
         {
             this.context = context;
-            stockInfo[0] = itemList.get(position).getSymbol();
-            stockInfo[1] = itemList.get(position).getName();
+            stockInfo[0] = stocksList.get(position).getSymbol();
+            stockInfo[1] = stocksList.get(position).getName();
             this.tinyDB = tinyDB;
-            this.itemList = itemList;
         }
 
         @Override
         public void onClick(View v)
         {
-            tinyDB.putListObject("clickedList", itemList);
+            tinyDB.putListObject("clickedList", stocksList);
             Intent intent = new Intent(context, StockDetailsActivity.class);
             intent.putExtra("stockInfo", stockInfo);
             context.startActivity(intent);

@@ -103,17 +103,17 @@ public class MainActivity extends AppCompatActivity
     {
         backPressedCounter++;
         if (backPressedCounter == 2) super.onBackPressed();
-        llMenuButtons.animate().translationY(0).alpha(1.0f).setDuration(500);
         mainFragment.animate()
                 .translationY(0)
-                .setDuration(500)
+                .setDuration(400)
                 .setListener(new AnimatorListenerAdapter()
                 {
                     @Override
-                    public void onAnimationEnd(Animator animation)
+                    public void onAnimationStart(Animator animation)
                     {
-                        super.onAnimationEnd(animation);
-                        llMenuButtons.setVisibility(View.VISIBLE);
+                        super.onAnimationStart(animation);
+                        llMenuButtons.animate().alpha(1.0f).setDuration(300);
+                        setMenuClickable(true);
                     }
                 });
         try
@@ -139,6 +139,12 @@ public class MainActivity extends AppCompatActivity
         doFragmentTransaction(FavoriteFragment.class);
     }
 
+    public void setMenuClickable(boolean clickable)
+    {
+        btnStocks.setClickable(clickable);
+        btnFavorite.setClickable(clickable);
+    }
+
     public void doFragmentTransaction(Class<? extends Fragment> fragmentClass)
             throws InstantiationException, IllegalAccessException
     {
@@ -159,17 +165,17 @@ public class MainActivity extends AppCompatActivity
 
     private void setSearchHistoryFragment() throws IllegalAccessException, InstantiationException
     {
-        llMenuButtons.animate().alpha(0.0f).setDuration(500);
+        llMenuButtons.animate().alpha(0.0f).setDuration(400);
         mainFragment.animate()
                 .translationY(-(llMenuButtons.getHeight()))
-                .setDuration(500)
+                .setDuration(400)
                 .setListener(new AnimatorListenerAdapter()
                 {
                     @Override
                     public void onAnimationEnd(Animator animation)
                     {
                         super.onAnimationEnd(animation);
-                        llMenuButtons.setVisibility(View.INVISIBLE);
+                        setMenuClickable(false);
                     }
                 });
         doFragmentTransaction(SearchHistoryFragment.class);

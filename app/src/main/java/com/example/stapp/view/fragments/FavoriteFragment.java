@@ -62,11 +62,9 @@ public class FavoriteFragment extends Fragment
             }
         } catch (NullPointerException e) { e.printStackTrace(); }
 
-
         LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
         rvFavorite.setLayoutManager(llManager);
-        adapter = new StocksListAdapter(favList, getActivity());
-        rvFavorite.setAdapter(adapter);
+        setRecyclerViewAdapter(favList);
 
         return rootView;
     }
@@ -80,10 +78,15 @@ public class FavoriteFragment extends Fragment
             ArrayList<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
             if (itemList.size() != 0)
             {
-                adapter = new StocksListAdapter(itemList, getActivity());
-                rvFavorite.setAdapter(adapter);
+                setRecyclerViewAdapter(itemList);
                 tinyDB.putListObject("clickedList", new ArrayList<>());
             }
         } catch (NullPointerException e) { e.printStackTrace(); }
+    }
+
+    public void setRecyclerViewAdapter(ArrayList<ListItem> itemList)
+    {
+        adapter = new StocksListAdapter(itemList, getActivity());
+        rvFavorite.setAdapter(adapter);
     }
 }

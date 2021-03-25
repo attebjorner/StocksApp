@@ -1,6 +1,7 @@
 package com.example.stapp.adapters;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.stapp.R;
@@ -24,13 +26,15 @@ public class DetailsMenuAdapter extends RecyclerView.Adapter<DetailsMenuAdapter.
     private static WeakReference<WebView> webView;
     private static String symbol;
     private static WeakReference<TextView> oldMenu;
+    private static WeakReference<Context> ctx;
     private static final int[] COLORS = {0xFF1A1A1A, 0xFFBABABA};
 
-    public DetailsMenuAdapter(ArrayList<String> menuButtons, WebView webView, String symbol)
+    public DetailsMenuAdapter(ArrayList<String> menuButtons, WebView webView, String symbol, Context ctx)
     {
         this.menuButtons = menuButtons;
         DetailsMenuAdapter.webView = new WeakReference<>(webView);
         DetailsMenuAdapter.symbol = symbol;
+        DetailsMenuAdapter.ctx = new WeakReference<>(ctx);
     }
 
     @NonNull
@@ -49,8 +53,7 @@ public class DetailsMenuAdapter extends RecyclerView.Adapter<DetailsMenuAdapter.
         holder.tvMenuItem.setText(menuButtons.get(position));
         if (position == 0)
         {
-            holder.tvMenuItem.setTextSize(18);
-            holder.tvMenuItem.setTextColor(COLORS[0]);
+            setActiveBtn(holder.tvMenuItem);
             oldMenu = new WeakReference<>(holder.tvMenuItem);
         }
         holder.tvMenuItem.setOnClickListener(new MenuListener(
@@ -62,6 +65,20 @@ public class DetailsMenuAdapter extends RecyclerView.Adapter<DetailsMenuAdapter.
     public int getItemCount()
     {
         return menuButtons.size();
+    }
+
+    public static void setActiveBtn(TextView textView)
+    {
+        textView.setTextSize(18);
+        textView.setTextColor(COLORS[0]);
+        textView.setTypeface(ResourcesCompat.getFont(ctx.get(), R.font.montserratbold));
+    }
+
+    public static void setInactiveBtn(TextView textView)
+    {
+        textView.setTextSize(14);
+        textView.setTextColor(COLORS[1]);
+        textView.setTypeface(ResourcesCompat.getFont(ctx.get(), R.font.montserratsemibold));
     }
 
     public final static class ViewHolder extends RecyclerView.ViewHolder
@@ -90,10 +107,8 @@ public class DetailsMenuAdapter extends RecyclerView.Adapter<DetailsMenuAdapter.
         @Override
         public void onClick(View v)
         {
-            newMenu.setTextSize(18);
-            newMenu.setTextColor(COLORS[0]);
-            oldMenu.get().setTextSize(14);
-            oldMenu.get().setTextColor(COLORS[1]);
+            setActiveBtn(newMenu);
+            setInactiveBtn(oldMenu.get());
             oldMenu = new WeakReference<>(newMenu);
             String widget = WidgetRequests.getWidget(symbol, position);
             webView.get().getSettings().setJavaScriptEnabled(true);

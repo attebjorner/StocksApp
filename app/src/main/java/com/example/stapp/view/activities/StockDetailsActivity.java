@@ -31,8 +31,15 @@ public class StockDetailsActivity extends AppCompatActivity
     ));
     private final int[] STAR_COLORS = new int[]{R.drawable.star_details_empty,
                                                 R.drawable.star_details_yellow};
+    private String[] stockInfo;
+    private TextView tvSymbol;
+    private TextView tvName;
+    private WebView webView;
+    private RecyclerView rvMenu;
+    private ImageButton btnBack;
+    private ImageButton btnFavorite;
+    private ArrayList<String> favorites;
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -40,15 +47,14 @@ public class StockDetailsActivity extends AppCompatActivity
         setContentView(R.layout.activity_stock_details);
 
         Intent inIntent = getIntent();
-        String[] stockInfo = inIntent.getStringArrayExtra("stockInfo");
-
+        stockInfo = inIntent.getStringArrayExtra("stockInfo");
         TinyDB tinyDB = new TinyDB(this);
-        ArrayList<String> favorites = tinyDB.getListString("favorites");
+        favorites = tinyDB.getListString("favorites");
 
-        ImageButton btnBack = (ImageButton) findViewById(R.id.barBackArrow);
-        btnBack.setOnClickListener(v -> onBackPressed());
-        ImageButton btnFavorite = (ImageButton) findViewById(R.id.barFavorite);
-        if (favorites.contains(stockInfo[0])) btnFavorite.setBackgroundResource(STAR_COLORS[1]);
+        setHeader();
+        setHeaderImageButtons();
+        setInitWebView();
+        setRvMenu();
 
         btnFavorite.setOnClickListener(v ->
         {
@@ -60,23 +66,41 @@ public class StockDetailsActivity extends AppCompatActivity
             itemList.get(tinyDB.getInt("clickedPos")).changeFav();
             tinyDB.putListObject("clickedList", itemList);
         });
+    }
 
-        TextView tvSymbol = (TextView) findViewById(R.id.tvSymbolDetail);
-        TextView tvName = (TextView) findViewById(R.id.tvNameDetail);
+    public void setHeaderImageButtons()
+    {
+        btnBack = (ImageButton) findViewById(R.id.barBackArrow);
+        btnBack.setOnClickListener(v -> onBackPressed());
+        btnFavorite = (ImageButton) findViewById(R.id.barFavorite);
+        if (favorites.contains(stockInfo[0])) btnFavorite.setBackgroundResource(STAR_COLORS[1]);
+    }
+
+    public void setHeader()
+    {
+        tvSymbol = (TextView) findViewById(R.id.tvSymbolDetail);
+        tvName = (TextView) findViewById(R.id.tvNameDetail);
         tvSymbol.setText(stockInfo[0]);
         tvName.setText(stockInfo[1]);
+    }
 
-        WebView webView = (WebView) findViewById(R.id.detailWebView);
+    @SuppressLint("SetJavaScriptEnabled")
+    public void setInitWebView()
+    {
+        webView = (WebView) findViewById(R.id.detailWebView);
         String htmlWidget = WidgetRequests.getWidget(stockInfo[0], 0);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadData(htmlWidget, "text/html; charset=utf-8", "UTF-8");
         webView.loadUrl(htmlWidget);
+    }
 
-        RecyclerView rvMenu = (RecyclerView) findViewById(R.id.rvDetailsMenu);
+    public void setRvMenu()
+    {
+        rvMenu = (RecyclerView) findViewById(R.id.rvDetailsMenu);
         LinearLayoutManager llManager = new LinearLayoutManager(
                 this, LinearLayoutManager.HORIZONTAL, false
         );
         rvMenu.setLayoutManager(llManager);
-        rvMenu.setAdapter(new DetailsMenuAdapter(MENU_BUTTONS, webView, stockInfo[0]));
+        rvMenu.setAdapter(new DetailsMenuAdapter(MENU_BUTTONS, webView, stockInfo[0], this));
     }
 }

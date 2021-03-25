@@ -84,8 +84,7 @@ public class MainStocksFragment extends Fragment
             ArrayList<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
             if (itemList.size() != 0)
             {
-                adapter = new StocksListAdapter(itemList, getActivity());
-                rvStocks.setAdapter(adapter);
+                setRecyclerViewAdapter(itemList);
                 tinyDB.putListObject("clickedList", new ArrayList<>());
             }
         } catch (NullPointerException e) { e.printStackTrace(); }
@@ -108,7 +107,12 @@ public class MainStocksFragment extends Fragment
     {
         LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
         rvStocks.setLayoutManager(llManager);
-        adapter = new StocksListAdapter(getFavorites(stocks), getActivity());
+        setRecyclerViewAdapter(getFavorites(stocks));
+    }
+
+    public void setRecyclerViewAdapter(ArrayList<ListItem> itemList)
+    {
+        adapter = new StocksListAdapter(itemList, getActivity());
         rvStocks.setAdapter(adapter);
     }
 }
