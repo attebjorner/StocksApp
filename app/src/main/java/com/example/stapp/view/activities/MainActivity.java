@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity
     private SearchView svStocks;
     private Button btnStocks, btnFavorite, lastActiveMenuBtn;
     private LinearLayout llMenuButtons;
+    private int idSearchText;
+    private TextView searchTextView;
     private View mainFragment;
     private TinyDB tinyDB;
     private int backPressedCounter = 0;
@@ -39,7 +41,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tinyDB = new TinyDB(this);
-
         mainFragment = (View) findViewById(R.id.mainFragment);
         btnStocks = (Button) findViewById(R.id.btnStocks);
         btnFavorite = (Button) findViewById(R.id.btnFavorite);
@@ -51,17 +52,11 @@ public class MainActivity extends AppCompatActivity
 
         llMenuButtons = (LinearLayout) findViewById(R.id.llMenuButtons);
         svStocks = (SearchView) findViewById(R.id.svStocks);
-        svStocks.clearFocus();
-        int idSearchText = svStocks.getContext().getResources().getIdentifier(
+        idSearchText = svStocks.getContext().getResources().getIdentifier(
                 "android:id/search_src_text", null, null
         );
-        TextView searchTextView = (TextView) svStocks.findViewById(idSearchText);
-        searchTextView.setTextColor(getColor(R.color.black));
-        searchTextView.setHintTextColor(getColor(R.color.black));
-        searchTextView.setTextSize(16);
-        Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.montserratsemibold);
-        searchTextView.setTypeface(typeface);
-
+        searchTextView = (TextView) svStocks.findViewById(idSearchText);
+        setSearchViewStyle();
         searchTextView.setOnFocusChangeListener((v, hasFocus) ->
         {
             if (hasFocus)
@@ -72,7 +67,6 @@ public class MainActivity extends AppCompatActivity
                 } catch (IllegalAccessException | InstantiationException e) { e.printStackTrace(); }
             }
         });
-
         svStocks.setOnQueryTextListener(new SearchView.OnQueryTextListener()
         {
             @Override
@@ -161,6 +155,17 @@ public class MainActivity extends AppCompatActivity
         btnUnpressed.setTextSize(18);
         btnUnpressed.setTextColor(getColor(R.color.gray));
         lastActiveMenuBtn = btnPressed;
+    }
+
+    private void setSearchViewStyle()
+    {
+        svStocks.clearFocus();
+        searchTextView = (TextView) svStocks.findViewById(idSearchText);
+        searchTextView.setTextColor(getColor(R.color.black));
+        searchTextView.setHintTextColor(getColor(R.color.black));
+        searchTextView.setTextSize(16);
+        Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.montserratsemibold);
+        searchTextView.setTypeface(typeface);
     }
 
     private void setSearchHistoryFragment() throws IllegalAccessException, InstantiationException

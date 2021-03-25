@@ -40,7 +40,6 @@ public class MainStocksFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.fragment_stocks, container, false);
         rvStocks = (RecyclerView) rootView.findViewById(R.id.rvStocks);
-
         tinyDB = new TinyDB(getActivity());
         StocksDaily mainStocks;
         try
@@ -70,7 +69,6 @@ public class MainStocksFragment extends Fragment
                 }
             });
         }
-
         initRecyclerView(mainStocks);
         return rootView;
     }

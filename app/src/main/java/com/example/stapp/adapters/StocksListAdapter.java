@@ -136,12 +136,14 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
         private final Context context;
         private final String[] stockInfo = new String[2];
         private final TinyDB tinyDB;
+        private final int position;
 
         ListItemListener(Context context, int position, TinyDB tinyDB)
         {
             this.context = context;
             stockInfo[0] = stocksList.get(position).getSymbol();
             stockInfo[1] = stocksList.get(position).getName();
+            this.position = position;
             this.tinyDB = tinyDB;
         }
 
@@ -149,6 +151,7 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
         public void onClick(View v)
         {
             tinyDB.putListObject("clickedList", stocksList);
+            tinyDB.putInt("clickedPos", position);
             Intent intent = new Intent(context, StockDetailsActivity.class);
             intent.putExtra("stockInfo", stockInfo);
             context.startActivity(intent);

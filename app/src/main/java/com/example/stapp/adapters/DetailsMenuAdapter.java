@@ -107,13 +107,16 @@ public class DetailsMenuAdapter extends RecyclerView.Adapter<DetailsMenuAdapter.
         @Override
         public void onClick(View v)
         {
-            setActiveBtn(newMenu);
-            setInactiveBtn(oldMenu.get());
-            oldMenu = new WeakReference<>(newMenu);
-            String widget = WidgetRequests.getWidget(symbol, position);
-            webView.get().getSettings().setJavaScriptEnabled(true);
-            if (position % 2 == 0) webView.get().loadData(widget, "text/html; charset=utf-8", "UTF-8");
-            else webView.get().loadUrl(widget);
+            if (!newMenu.equals(oldMenu.get()))
+            {
+                setActiveBtn(newMenu);
+                setInactiveBtn(oldMenu.get());
+                oldMenu = new WeakReference<>(newMenu);
+                String widget = WidgetRequests.getWidget(symbol, position);
+                webView.get().getSettings().setJavaScriptEnabled(true);
+                if (position % 2 == 0) webView.get().loadData(widget, "text/html; charset=utf-8", "UTF-8");
+                else webView.get().loadUrl(widget);
+            }
         }
     }
 }
