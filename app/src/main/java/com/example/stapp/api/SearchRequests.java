@@ -89,7 +89,6 @@ public class SearchRequests
                 } catch (Exception e) { e.printStackTrace(); }
             }
             tinyDB.putObject("searchedStocks", searchedStocksContainer);
-//            TODO:
             responseListener.onResponse(searchResponseItems);
         }, error -> responseListener.onError("Error occurred")
         );

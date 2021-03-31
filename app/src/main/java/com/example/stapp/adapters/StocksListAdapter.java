@@ -8,16 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stapp.view.activities.StockDetailsActivity;
-import com.example.stapp.models.ListItem;
 import com.example.stapp.R;
+import com.example.stapp.models.ListItem;
 import com.example.stapp.utils.TinyDB;
+import com.example.stapp.view.activities.StockDetailsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;

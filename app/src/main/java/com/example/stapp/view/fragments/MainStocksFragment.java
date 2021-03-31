@@ -1,23 +1,22 @@
 package com.example.stapp.view.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.stapp.api.ResponseListener;
-import com.example.stapp.utils.DateUtil;
-import com.example.stapp.models.ListItem;
-import com.example.stapp.adapters.StocksListAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.stapp.R;
-import com.example.stapp.utils.TinyDB;
+import com.example.stapp.adapters.StocksListAdapter;
+import com.example.stapp.api.ResponseListener;
+import com.example.stapp.models.ListItem;
 import com.example.stapp.models.StocksDaily;
+import com.example.stapp.utils.DateUtil;
+import com.example.stapp.utils.TinyDB;
 
 import java.util.ArrayList;
 
