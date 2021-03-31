@@ -21,7 +21,7 @@ public class InitRequest
     {
         ArrayList<ListItem> stocksResponseItems = new ArrayList<>();
         String REQUEST_URL = "https://mboum.com/api/v1/co/collections/?list=most_actives&start=1&" +
-                "apikey=xThUx6KqmURgMfT1xXXjcT8GIpB1zeJ6ghcWqT3eHeOTlJTtw9DnDq9qWP2g";
+                "apikey=PexGf5NJPITCNt7SCyqb7j6Y8maClY6UZQYiXRDM2uLOqnc4QqQj6SlXgb1A";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, REQUEST_URL, null, response ->
