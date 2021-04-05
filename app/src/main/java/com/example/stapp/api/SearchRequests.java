@@ -42,7 +42,6 @@ public class SearchRequests
                 }
             } catch (JSONException e) { e.printStackTrace(); }
 
-            //get comma-separated string query results and then search for them
             getSearchResultsData(context, queryResults[0].toString(), responseListener);
 
         }, error -> responseListener.onError("Error occurred")
