@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.stapp.R;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import java.util.List;
 
 public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdapter.ViewHolder>
 {
-    private final ArrayList<String> searchedList;
+    private final List<String> searchedList;
     private static WeakReference<SearchView> svStocks;
 
-    public SearchHistoryAdapter(ArrayList<String> searchedList, SearchView svStocks)
+    public SearchHistoryAdapter(List<String> searchedList, SearchView svStocks)
     {
         this.searchedList = searchedList;
         SearchHistoryAdapter.svStocks = new WeakReference<>(svStocks);

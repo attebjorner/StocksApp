@@ -19,6 +19,7 @@ import com.example.stapp.utils.DateUtil;
 import com.example.stapp.utils.TinyDB;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.stapp.api.InitRequest.getInitStocks;
 
@@ -55,7 +56,7 @@ public class MainStocksFragment extends Fragment
             getInitStocks(getActivity(), new ResponseListener()
             {
                 @Override
-                public void onResponse(ArrayList<ListItem> stocksResponseItems)
+                public void onResponse(List<ListItem> stocksResponseItems)
                 {
                     finalMainStocks.setStocksItems(stocksResponseItems);
                     initRecyclerView(finalMainStocks);
@@ -78,18 +79,21 @@ public class MainStocksFragment extends Fragment
         super.onResume();
         try
         {
-            ArrayList<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
+            List<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
             if (itemList.size() != 0)
             {
                 setRecyclerViewAdapter(itemList);
                 tinyDB.putListObject("clickedList", new ArrayList<>());
             }
-        } catch (NullPointerException e) { e.printStackTrace(); }
+        } catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
     }
 
-    public ArrayList<ListItem> getFavorites(StocksDaily stocks)
+    public List<ListItem> getFavorites(StocksDaily stocks)
     {
-        ArrayList<ListItem> stocksList = stocks.getStocksItems();
+        List<ListItem> stocksList = stocks.getStocksItems();
         ArrayList<String> favorites;
         favorites = tinyDB.getListString("favorites");
         for (int i = 0; i < stocksList.size(); i++)
@@ -107,7 +111,7 @@ public class MainStocksFragment extends Fragment
         setRecyclerViewAdapter(getFavorites(stocks));
     }
 
-    public void setRecyclerViewAdapter(ArrayList<ListItem> itemList)
+    public void setRecyclerViewAdapter(List<ListItem> itemList)
     {
         adapter = new StocksListAdapter(itemList, getActivity());
         rvStocks.setAdapter(adapter);

@@ -21,12 +21,13 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.ViewHolder>
 {
-    private static ArrayList<ListItem> stocksList = new ArrayList<>();
+    private static List<ListItem> stocksList = new ArrayList<>();
     private static TinyDB tinyDB;
     private static WeakReference<Context> context;
     private static final int[] ITEM_COLORS = new int[]{0xFFF0F4F7, 0xFFFFFFFF};
@@ -34,7 +35,7 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
     private static final int[] STAR_COLORS = new int[]{0xFFBABABA, 0xFFFFCA1C}; //gray, yellow
     private static final String IMAGE_URL = "https://finnhub.io/api/logo?symbol=";
 
-    public StocksListAdapter(ArrayList<ListItem> stocksList, Context context)
+    public StocksListAdapter(List<ListItem> stocksList, Context context)
     {
         StocksListAdapter.stocksList = stocksList;
         StocksListAdapter.context = new WeakReference<>(context);
@@ -120,10 +121,10 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
         {
             item.setFavorite(!item.isFavorite());
             imbFavorite.setColorFilter(item.isFavorite() ? STAR_COLORS[1] : STAR_COLORS[0]);
-            ArrayList<String> temp = tinyDB.getListString("favorites");
+            List<String> temp = tinyDB.getListString("favorites");
             if (item.isFavorite()) temp.add(item.getSymbol());
             else temp.remove(item.getSymbol());
-            tinyDB.putListString("favorites", temp);
+            tinyDB.putListString("favorites", new ArrayList<>(temp));
         }
     }
 
@@ -142,7 +143,7 @@ public class StocksListAdapter extends RecyclerView.Adapter<StocksListAdapter.Vi
         @Override
         public void onClick(View v)
         {
-            tinyDB.putListObject("clickedList", stocksList);
+            tinyDB.putListObject("clickedList", new ArrayList<>(stocksList));
             tinyDB.putInt("clickedPos", position);
             Intent intent = new Intent(context.get(), StockDetailsActivity.class);
             intent.putExtra("stockInfo", stockInfo);

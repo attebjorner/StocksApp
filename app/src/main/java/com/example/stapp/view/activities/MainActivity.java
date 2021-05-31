@@ -23,6 +23,7 @@ import com.example.stapp.view.fragments.SearchResultsFragment;
 import com.example.stapp.view.fragments.MainStocksFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -48,7 +49,10 @@ public class MainActivity extends AppCompatActivity
         try
         {
             doFragmentTransaction(MainStocksFragment.class);
-        } catch (InstantiationException | IllegalAccessException e) { e.printStackTrace(); }
+        } catch (InstantiationException | IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
 
         llMenuButtons = (LinearLayout) findViewById(R.id.llMenuButtons);
         svStocks = (SearchView) findViewById(R.id.svStocks);
@@ -64,7 +68,10 @@ public class MainActivity extends AppCompatActivity
                 try
                 {
                     setSearchHistoryFragment();
-                } catch (IllegalAccessException | InstantiationException e) { e.printStackTrace(); }
+                } catch (IllegalAccessException | InstantiationException e)
+                {
+                    e.printStackTrace();
+                }
             }
         });
         svStocks.setOnQueryTextListener(new SearchView.OnQueryTextListener()
@@ -78,7 +85,10 @@ public class MainActivity extends AppCompatActivity
                     try
                     {
                         doFragmentTransaction(SearchResultsFragment.class);
-                    } catch (IllegalAccessException | InstantiationException e) { e.printStackTrace(); }
+                    } catch (IllegalAccessException | InstantiationException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
                 return false;
             }
@@ -91,7 +101,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-//    switch to last active menu fragment && visible menu buttons
+    //    switch to last active menu fragment && visible menu buttons
     @Override
     public void onBackPressed()
     {
@@ -118,7 +128,10 @@ public class MainActivity extends AppCompatActivity
             svStocks.setBackgroundResource(R.drawable.search_rounded);
             svStocks.clearFocus();
             backPressedCounter = 0;
-        } catch (IllegalAccessException | InstantiationException e) { e.printStackTrace(); }
+        } catch (IllegalAccessException | InstantiationException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void onClickStocks(View view) throws IllegalAccessException, InstantiationException
@@ -188,9 +201,9 @@ public class MainActivity extends AppCompatActivity
 
     private void addSearchedHistoryQuery(String query)
     {
-        ArrayList<String> searchedHistory = tinyDB.getListString("searchedHistory");
+        List<String> searchedHistory = tinyDB.getListString("searchedHistory");
         if (!searchedHistory.contains(query)) searchedHistory.add(query);
         if (searchedHistory.size() == 101) searchedHistory.remove(0);
-        tinyDB.putListString("searchedHistory", searchedHistory);
+        tinyDB.putListString("searchedHistory", new ArrayList<>(searchedHistory));
     }
 }

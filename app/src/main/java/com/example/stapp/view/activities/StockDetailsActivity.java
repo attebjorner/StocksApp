@@ -23,10 +23,11 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class StockDetailsActivity extends AppCompatActivity
 {
-    private final ArrayList<String> MENU_BUTTONS = new ArrayList<>(Arrays.asList(
+    private final List<String> MENU_BUTTONS = new ArrayList<>(Arrays.asList(
             "Stock Chart", "Recommendations", "Profile", "ESP Estimates", "Financials"
     ));
     private final int[] STAR_COLORS = new int[]{R.drawable.star_details_empty,
@@ -38,7 +39,7 @@ public class StockDetailsActivity extends AppCompatActivity
     private RecyclerView rvMenu;
     private ImageButton btnBack;
     private ImageButton btnFavorite;
-    private ArrayList<String> favorites;
+    private List<String> favorites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,10 +62,10 @@ public class StockDetailsActivity extends AppCompatActivity
             btnFavorite.setBackgroundResource(STAR_COLORS[favorites.contains(stockInfo[0]) ? 0 : 1]);
             if (favorites.contains(stockInfo[0])) favorites.remove(stockInfo[0]);
             else favorites.add(stockInfo[0]);
-            tinyDB.putListString("favorites", favorites);
-            ArrayList<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
+            tinyDB.putListString("favorites", new ArrayList<>(favorites));
+            List<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
             itemList.get(tinyDB.getInt("clickedPos")).changeFav();
-            tinyDB.putListObject("clickedList", itemList);
+            tinyDB.putListObject("clickedList", new ArrayList<>(itemList));
         });
     }
 

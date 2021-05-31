@@ -5,7 +5,6 @@ import java.math.RoundingMode;
 
 public class ListItem
 {
-//    private final String symbol;
     private String symbol;
     private final String name;
     private final String price;
@@ -31,11 +30,6 @@ public class ListItem
         this.price = item.getPrice();
         this.change = this.getChange();
         this.isFavorite = this.isFavorite();
-    }
-
-    public void setSymbol(String s)
-    {
-        this.symbol = s;
     }
 
     public String getSymbol()
@@ -68,7 +62,6 @@ public class ListItem
         isFavorite = favorite;
     }
 
-//    TODO: replace setFav to chanchefav
     public void changeFav()
     {
         isFavorite = !isFavorite;

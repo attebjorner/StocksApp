@@ -20,6 +20,7 @@ import com.example.stapp.utils.TinyDB;
 import com.example.stapp.models.StocksDaily;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.stapp.api.SearchRequests.getSearchResults;
 
@@ -59,7 +60,7 @@ public class SearchResultsFragment extends Fragment
         getSearchResults(getActivity(), searchQuery, new ResponseListener()
         {
             @Override
-            public void onResponse(ArrayList<ListItem> stocksResponseItems)
+            public void onResponse(List<ListItem> stocksResponseItems)
             {
                 initRecyclerView(stocksResponseItems);
             }
@@ -80,18 +81,22 @@ public class SearchResultsFragment extends Fragment
         super.onResume();
         try
         {
-            ArrayList<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
+            List<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
             if (itemList.size() != 0)
             {
                 setRecyclerViewAdapter(itemList);
                 tinyDB.putListObject("clickedList", new ArrayList<>());
             }
-        } catch (NullPointerException e) { e.printStackTrace(); }
+        } catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
     }
 
-    public void initRecyclerView(ArrayList<ListItem> responseList)
+    public void initRecyclerView(List<ListItem> responseList)
     {
-        if (responseList.size() == 0) Toast.makeText(getActivity(), "No results", Toast.LENGTH_SHORT).show();
+        if (responseList.size() == 0)
+            Toast.makeText(getActivity(), "No results", Toast.LENGTH_SHORT).show();
         else
         {
             LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
@@ -100,7 +105,7 @@ public class SearchResultsFragment extends Fragment
         }
     }
 
-    public void setRecyclerViewAdapter(ArrayList<ListItem> itemList)
+    public void setRecyclerViewAdapter(List<ListItem> itemList)
     {
         adapter = new StocksListAdapter(itemList, getActivity());
         rvSearchResults.setAdapter(adapter);

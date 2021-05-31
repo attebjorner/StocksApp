@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.stapp.R;
-import com.example.stapp.utils.TinyDB;
 import com.example.stapp.adapters.SearchHistoryAdapter;
+import com.example.stapp.utils.TinyDB;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class SearchHistoryFragment extends Fragment
 {
@@ -35,7 +35,7 @@ public class SearchHistoryFragment extends Fragment
         svStocks.setBackgroundResource(R.drawable.search_rounded_focus);
 
         TinyDB tinyDB = new TinyDB(getActivity());
-        ArrayList<String> searchedHistory = tinyDB.getListString("searchedHistory");
+        List<String> searchedHistory = tinyDB.getListString("searchedHistory");
         Collections.reverse(searchedHistory);
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.HORIZONTAL);

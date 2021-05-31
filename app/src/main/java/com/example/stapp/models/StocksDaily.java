@@ -1,14 +1,15 @@
 package com.example.stapp.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StocksDaily
 {
     private String date;
-    private ArrayList<ListItem> stocksItems;
-    private final ArrayList<String> stocksItemsSymbols = new ArrayList<>();
+    private List<ListItem> stocksItems;
+    private final List<String> stocksItemsSymbols = new ArrayList<>();
 
-    public StocksDaily(String date, ArrayList<ListItem> stocksItems)
+    public StocksDaily(String date, List<ListItem> stocksItems)
     {
         this.date = date;
         this.stocksItems = stocksItems;
@@ -20,18 +21,18 @@ public class StocksDaily
         return date;
     }
 
-    public ArrayList<ListItem> getStocksItems()
+    public List<ListItem> getStocksItems()
     {
         return stocksItems;
     }
 
-    public void setStocksItems(ArrayList<ListItem> stocksItems)
+    public void setStocksItems(List<ListItem> stocksItems)
     {
         this.stocksItems = stocksItems;
         for (ListItem item : stocksItems) stocksItemsSymbols.add(item.getSymbol());
     }
 
-    public ArrayList<String> getStocksItemsSymbols()
+    public List<String> getStocksItemsSymbols()
     {
         return stocksItemsSymbols;
     }

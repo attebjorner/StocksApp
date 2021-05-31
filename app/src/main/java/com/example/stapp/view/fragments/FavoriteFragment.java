@@ -9,13 +9,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.stapp.models.ListItem;
-import com.example.stapp.adapters.StocksListAdapter;
 import com.example.stapp.R;
-import com.example.stapp.utils.TinyDB;
+import com.example.stapp.adapters.StocksListAdapter;
+import com.example.stapp.models.ListItem;
 import com.example.stapp.models.StocksDaily;
+import com.example.stapp.utils.TinyDB;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FavoriteFragment extends Fragment
 {
@@ -38,21 +39,20 @@ public class FavoriteFragment extends Fragment
         tinyDB = new TinyDB(getActivity());
 
         StocksDaily mainStocks = tinyDB.getObject("mainStocks", StocksDaily.class);
-        ArrayList<ListItem> stocksList = mainStocks.getStocksItems();
+        List<ListItem> stocksList = mainStocks.getStocksItems();
 
-        ArrayList<String> favorites = tinyDB.getListString("favorites");
-        for (int i=0; i<stocksList.size(); i++)
+        List<String> favorites = tinyDB.getListString("favorites");
+        for (int i = 0; i < stocksList.size(); i++)
         {
-//            if (favorites.contains(stocksList.get(i).getSymbol())) stocksList.get(i).setFavorite(true);
             stocksList.get(i).setFavorite(favorites.contains(stocksList.get(i).getSymbol()));
         }
 
-        ArrayList<ListItem> favList = new ArrayList<>();
+        List<ListItem> favList = new ArrayList<>();
         for (ListItem item : stocksList) if (item.isFavorite()) favList.add(item);
         try
         {
             StocksDaily searchedStocksContainer = tinyDB.getObject("searchedStocks", StocksDaily.class);
-            ArrayList<ListItem> searchedStocks = searchedStocksContainer.getStocksItems();
+            List<ListItem> searchedStocks = searchedStocksContainer.getStocksItems();
             for (ListItem item : searchedStocks)
             {
                 if (favorites.contains(item.getSymbol()) && !mainStocks.getStocksItemsSymbols().contains(item.getSymbol()))
@@ -61,11 +61,14 @@ public class FavoriteFragment extends Fragment
                     favList.add(item);
                 }
             }
-        } catch (NullPointerException e) { e.printStackTrace(); }
+        } catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
 
         LinearLayoutManager llManager = new LinearLayoutManager(getActivity());
         rvFavorite.setLayoutManager(llManager);
-        setRecyclerViewAdapter(favList);
+        setRecyclerViewAdapter(new ArrayList<>(favList));
 
         return rootView;
     }
@@ -76,16 +79,19 @@ public class FavoriteFragment extends Fragment
         super.onResume();
         try
         {
-            ArrayList<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
+            List<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
             if (itemList.size() != 0)
             {
                 setRecyclerViewAdapter(itemList);
                 tinyDB.putListObject("clickedList", new ArrayList<>());
             }
-        } catch (NullPointerException e) { e.printStackTrace(); }
+        } catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
     }
 
-    public void setRecyclerViewAdapter(ArrayList<ListItem> itemList)
+    public void setRecyclerViewAdapter(List<ListItem> itemList)
     {
         adapter = new StocksListAdapter(itemList, getActivity());
         rvFavorite.setAdapter(adapter);

@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 public class SearchRequests
 {
@@ -59,7 +60,7 @@ public class SearchRequests
                                             ResponseListener responseListener)
     {
         TinyDB tinyDB = new TinyDB(context);
-        ArrayList<ListItem> searchResponseItems = new ArrayList<>();
+        List<ListItem> searchResponseItems = new ArrayList<>();
         //fun to return query without shit which i have
         queryResults = manageExistingStocks(searchResponseItems, queryResults, tinyDB);
         String LOOKUP_DATA_REQUEST = "https://api.twelvedata.com/quote?symbol=" + queryResults
@@ -69,7 +70,7 @@ public class SearchRequests
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, LOOKUP_DATA_REQUEST, null, response ->
         {
-            ArrayList<String> favorites = tinyDB.getListString("favorites");
+            List<String> favorites = tinyDB.getListString("favorites");
             Iterator<String> keys = response.keys();
             while(keys.hasNext())
             {
@@ -99,20 +100,20 @@ public class SearchRequests
         } else responseListener.onResponse(searchResponseItems);
     }
 
-    public static void addExistingStocks(StocksDaily container, ArrayList<ListItem> stocksList,
+    public static void addExistingStocks(StocksDaily container, List<ListItem> stocksList,
                                          String symbol, TinyDB tinyDB)
     {
-        ArrayList<String> favorites = tinyDB.getListString("favorites");
+        List<String> favorites = tinyDB.getListString("favorites");
         int id = container.getStocksItemsSymbols().indexOf(symbol);
         stocksList.add(container.getStocksItems().get(id));
         if (favorites.contains(symbol)) stocksList.get(stocksList.size()-1).setFavorite(true);
     }
 
-    public static String manageExistingStocks(ArrayList<ListItem> responseItems,
+    public static String manageExistingStocks(List<ListItem> responseItems,
                                               String query, TinyDB tinyDB)
     {
         StocksDaily searchedStocksContainer = tinyDB.getObject("searchedStocks", StocksDaily.class);
-        ArrayList<String> queryArray = new ArrayList<>(Arrays.asList(query.split(",")));
+        List<String> queryArray = new ArrayList<>(Arrays.asList(query.split(",")));
         for (int i = queryArray.size()-1; i>-1; i--)
         {
             String sym = queryArray.get(i);

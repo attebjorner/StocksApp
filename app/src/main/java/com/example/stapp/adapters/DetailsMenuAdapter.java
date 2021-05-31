@@ -2,7 +2,6 @@ package com.example.stapp.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,18 +16,18 @@ import com.example.stapp.R;
 import com.example.stapp.utils.WidgetRequests;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import java.util.List;
 
 public class DetailsMenuAdapter extends RecyclerView.Adapter<DetailsMenuAdapter.ViewHolder>
 {
-    private final ArrayList<String> menuButtons;
+    private final List<String> menuButtons;
     private static WeakReference<WebView> webView;
     private static String symbol;
     private static WeakReference<TextView> oldMenu;
     private static WeakReference<Context> ctx;
     private static final int[] COLORS = {0xFF1A1A1A, 0xFFBABABA};
 
-    public DetailsMenuAdapter(ArrayList<String> menuButtons, WebView webView, String symbol, Context ctx)
+    public DetailsMenuAdapter(List<String> menuButtons, WebView webView, String symbol, Context ctx)
     {
         this.menuButtons = menuButtons;
         DetailsMenuAdapter.webView = new WeakReference<>(webView);
