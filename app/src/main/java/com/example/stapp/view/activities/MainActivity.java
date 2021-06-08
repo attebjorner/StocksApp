@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity
         try
         {
             doFragmentTransaction(MainStocksFragment.class);
-        } catch (InstantiationException | IllegalAccessException e)
+        }
+        catch (InstantiationException | IllegalAccessException e)
         {
             e.printStackTrace();
         }
@@ -68,7 +69,8 @@ public class MainActivity extends AppCompatActivity
                 try
                 {
                     setSearchHistoryFragment();
-                } catch (IllegalAccessException | InstantiationException e)
+                }
+                catch (IllegalAccessException | InstantiationException e)
                 {
                     e.printStackTrace();
                 }
@@ -85,7 +87,8 @@ public class MainActivity extends AppCompatActivity
                     try
                     {
                         doFragmentTransaction(SearchResultsFragment.class);
-                    } catch (IllegalAccessException | InstantiationException e)
+                    }
+                    catch (IllegalAccessException | InstantiationException e)
                     {
                         e.printStackTrace();
                     }
@@ -106,7 +109,10 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed()
     {
         backPressedCounter++;
-        if (backPressedCounter == 2) super.onBackPressed();
+        if (backPressedCounter == 2)
+        {
+            super.onBackPressed();
+        }
         mainFragment.animate()
                 .translationY(0)
                 .setDuration(400)
@@ -122,13 +128,20 @@ public class MainActivity extends AppCompatActivity
                 });
         try
         {
-            if (lastActiveMenuBtn.equals(btnStocks)) onClickStocks(btnStocks);
-            else onClickFavorite(btnFavorite);
+            if (lastActiveMenuBtn.equals(btnStocks))
+            {
+                onClickStocks(btnStocks);
+            }
+            else
+            {
+                onClickFavorite(btnFavorite);
+            }
             svStocks.setQuery("", false);
             svStocks.setBackgroundResource(R.drawable.search_rounded);
             svStocks.clearFocus();
             backPressedCounter = 0;
-        } catch (IllegalAccessException | InstantiationException e)
+        }
+        catch (IllegalAccessException | InstantiationException e)
         {
             e.printStackTrace();
         }
@@ -202,8 +215,14 @@ public class MainActivity extends AppCompatActivity
     private void addSearchedHistoryQuery(String query)
     {
         List<String> searchedHistory = tinyDB.getListString("searchedHistory");
-        if (!searchedHistory.contains(query)) searchedHistory.add(query);
-        if (searchedHistory.size() == 101) searchedHistory.remove(0);
+        if (!searchedHistory.contains(query))
+        {
+            searchedHistory.add(query);
+        }
+        if (searchedHistory.size() == 101)
+        {
+            searchedHistory.remove(0);
+        }
         tinyDB.putListString("searchedHistory", new ArrayList<>(searchedHistory));
     }
 }

@@ -45,8 +45,12 @@ public class MainStocksFragment extends Fragment
         try
         {
             mainStocks = tinyDB.getObject("mainStocks", StocksDaily.class);
-            if (mainStocks.getStocksItems() == null) throw new NullPointerException();
-        } catch (NullPointerException e)
+            if (mainStocks.getStocksItems() == null)
+            {
+                throw new NullPointerException();
+            }
+        }
+        catch (NullPointerException e)
         {
             mainStocks = new StocksDaily(DateUtil.now(), new ArrayList<>());
         }
@@ -85,7 +89,8 @@ public class MainStocksFragment extends Fragment
                 setRecyclerViewAdapter(itemList);
                 tinyDB.putListObject("clickedList", new ArrayList<>());
             }
-        } catch (NullPointerException e)
+        }
+        catch (NullPointerException e)
         {
             e.printStackTrace();
         }

@@ -31,7 +31,7 @@ public class StockDetailsActivity extends AppCompatActivity
             "Stock Chart", "Recommendations", "Profile", "ESP Estimates", "Financials"
     ));
     private final int[] STAR_COLORS = new int[]{R.drawable.star_details_empty,
-                                                R.drawable.star_details_yellow};
+            R.drawable.star_details_yellow};
     private String[] stockInfo;
     private TextView tvSymbol;
     private TextView tvName;
@@ -60,8 +60,14 @@ public class StockDetailsActivity extends AppCompatActivity
         btnFavorite.setOnClickListener(v ->
         {
             btnFavorite.setBackgroundResource(STAR_COLORS[favorites.contains(stockInfo[0]) ? 0 : 1]);
-            if (favorites.contains(stockInfo[0])) favorites.remove(stockInfo[0]);
-            else favorites.add(stockInfo[0]);
+            if (favorites.contains(stockInfo[0]))
+            {
+                favorites.remove(stockInfo[0]);
+            }
+            else
+            {
+                favorites.add(stockInfo[0]);
+            }
             tinyDB.putListString("favorites", new ArrayList<>(favorites));
             List<ListItem> itemList = tinyDB.getListObject("clickedList", ListItem.class);
             itemList.get(tinyDB.getInt("clickedPos")).changeFav();
@@ -74,7 +80,10 @@ public class StockDetailsActivity extends AppCompatActivity
         btnBack = (ImageButton) findViewById(R.id.barBackArrow);
         btnBack.setOnClickListener(v -> onBackPressed());
         btnFavorite = (ImageButton) findViewById(R.id.barFavorite);
-        if (favorites.contains(stockInfo[0])) btnFavorite.setBackgroundResource(STAR_COLORS[1]);
+        if (favorites.contains(stockInfo[0]))
+        {
+            btnFavorite.setBackgroundResource(STAR_COLORS[1]);
+        }
     }
 
     public void setHeader()
